@@ -52,3 +52,17 @@ main > section {
 main {
   box-shadow: 2px 2px 3px black;
 }
+
+.dealer-cards div, .player-cards div {
+  width: 100px;
+  height: 125px;
+  padding: 1rem 0.5rem;
+  background: blue;
+  color: white;
+  font-size: 10px;
+}
+
+footer {
+  padding: 1rem; 
+  text-align: center;
+}

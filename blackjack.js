@@ -36,14 +36,14 @@ var deck = {
 }
 
 var bankRoll = {
-  totalCash: 100,
+  totalCash: 0,
   playerName: "",
 
   initializeBankRoll: function() {
-    playerName = prompt("What's your name?");
-    $('.player-name').text("Player name: " + playerName);
+    this.playerName = prompt("What's your name?");
+    $('.player-name').text("Player name: " + this.playerName);
 
-    // alert("Welcome to Las Vegas! Assuming you showed up empty-handed, here's $100.");
+    this.totalCash = prompt("How much money do you have?");
     $('.total-cash').text("Total cash: $" + this.totalCash);
   }
 }
@@ -51,12 +51,43 @@ var bankRoll = {
 var game = {
   dealerCards: [],
   playerCards: [],
+  bet: 5,
+  $dealerCardsSection: $('.dealer-cards'),
+  $playerCardsSection: $('.player-cards'),
+  dealerTotal: 0,
+  playerTotal: 0,
+  $betSubmit: $('.bet-submit'),
 
   initializeGame: function () {
     deck.createDeck();
     deck.shuffleDeck();
     bankRoll.initializeBankRoll();
-  }
+
+    alert("Enter your bet before cards are dealt, otherwise your bet will be $5!");
+
+    this.dealCards();
+    this.compareHands();
+  },
+
+  setListeners: function() {
+    this.$betSubmit.on("click", function(e) {
+      game.placeBet();
+    });
+  },
+
+  placeBet: function() {
+    // alert("Enter your bet!");
+
+    this.$betSubmit.on("click", function(e) {
+      game.bet = $('#player-bet').val();
+      console.log(game.bet);
+
+      if ($('#player-bet').val() > bankRoll.totalCash) {
+        alert("You don't have enough cash. Please try not to fuck up next time.");
+        game.placeBet();
+      }
+    });
+  },
 
   dealCards: function() {
     //For initial deal only. If dealer or player hit and there are no cards left in the deck, we will recreate and shuffle the deck then.
@@ -67,14 +98,65 @@ var game = {
     }
 
     for (var i = 0; i < 2; i++) {
-      playerCards.push(deck.cards[i]);
+      var newPlayerCard = deck.cards[i];
+      this.playerCards.push(newPlayerCard);
       deck.cards.shift();
-      
-      dealerCards.push(deck.cards[i]);
+      this.playerCardsView(newPlayerCard);
+
+      var newDealerCard = deck.cards[i];
+      this.dealerCards.push(newDealerCard);
       deck.cards.shift();
+      this.dealerCardsView(newDealerCard);
     }
-  }
-}
+  },
+
+  dealerCardsView: function(card) {
+    var cardView = $('<div><h2>' + card.rank + '</h2><h2>' + card.suit + '</h2></div>');
+    this.$dealerCardsSection.append(cardView);
+  },
+
+  playerCardsView: function(card) {
+    var cardView = $('<div><h2>' + card.rank + '</h2><h2>' + card.suit + '</h2></div>');
+    this.$playerCardsSection.append(cardView);
+  },
+
+  compareHands: function() {
+    for (var b = 0; b < this.dealerCards.length; b++) {
+      if (this.dealerCards[b].rank == "A") {
+        if (this.dealerTotal <= 10) {
+          this.dealerTotal += 11;
+        } else {
+          this.dealerTotal += 1;
+        }
+      } else if (this.dealerCards[b].rank == "J" ||
+                 this.dealerCards[b].rank == "Q" ||
+                 this.dealerCards[b].rank == "K") {
+          this.dealerTotal += 10;
+      } else {
+        this.dealerTotal += Number(this.dealerCards[b].rank);
+      }
+    }
+
+    for (var c = 0; c < this.playerCards.length; c++) {
+      if (this.playerCards[c].rank == "A") {
+        if (this.playerTotal <= 10) {
+          this.playerTotal += 11;
+        } else {
+          this.playerTotal += 1;
+        }
+      } else if (this.playerCards[c].rank == "J" ||
+                 this.playerCards[c].rank == "Q" ||
+                 this.playerCards[c].rank == "K") {
+          this.playerTotal += 10;
+      } else {
+        this.playerTotal += Number(this.playerCards[c].rank);
+      }
+    }
+
+    console.log(this.dealerTotal);
+    console.log(this.playerTotal);
+  },
+};
 
 // $('modal-button').on("click", function() {
 //   game.initializeGame();
