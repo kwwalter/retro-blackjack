@@ -44,10 +44,9 @@ main > section {
   padding: 3rem 0.5rem;
 }
 
-section h2 {
-  font-size: .8rem;
-  font-weight: bold;
-  text-align: center;
+.deck {
+  height: 50px;
+  width: 30px;
 }
 
 main {
