@@ -44,7 +44,13 @@ var bankRoll = {
     $('.player-name').text("Player name: " + this.playerName);
 
     this.totalCash = Number(prompt("How much money do you have?"));
-    $('.total-cash').html("Total cash: $" + this.totalCash.toString());
+
+    if (this.totalCash == "") {
+      this.totalCash = 100;
+      $('.total-cash').html("Total cash: $" + this.totalCash.toString());
+    } else {
+      $('.total-cash').html("Total cash: $" + this.totalCash.toString());
+    }
   },
 
   updateBankRollView: function() {
@@ -61,6 +67,8 @@ var game = {
   dealerTotal: 0,
   playerTotal: 0,
   $deal: $('#deal-button'),
+  $hitButton: $('<button class="hit-button">HIT</button>'), //haha shit button
+  $standButton: $('<button class="stand-button">STAND</button>'),
 
   initializeGame: function () {
     this.setListeners();
@@ -76,18 +84,8 @@ var game = {
     this.$deal.on("click", function(e) {
       game.submitBet();
       game.dealCards();
-      game.addUpHands();
+      game.addUpDealtCards();
       game.checkForBlackjack();
-
-      if (game.playerTotal != 21 && game.dealerTotal != 21) {
-        //player decides to hit or stand based on current total
-        //create hit and stand buttons, apppend to player-cards div
-
-        //hit dealer if total < 17
-        //hit dealer view
-
-        //
-      }
     });
   },
 
@@ -134,7 +132,7 @@ var game = {
     this.$playerCardsSection.append(cardView);
   },
 
-  addUpHands: function() {
+  addUpDealtCards: function() {
     for (var b = 0; b < this.dealerCards.length; b++) {
       if (this.dealerCards[b].rank == "A") {
         if (this.dealerTotal <= 10) {
@@ -166,9 +164,6 @@ var game = {
         this.playerTotal += Number(this.playerCards[c].rank);
       }
     }
-    //
-    // return this.dealerTotal;
-    // return this.playerTotal;
 
     console.log(this.dealerTotal, this.playerTotal);
   },
@@ -185,8 +180,34 @@ var game = {
       bankRoll.updateBankRollView();
     } else {
       console.log("no blackjacks here!");
+      this.appendHitStandButtons();
     }
   },
+
+  appendHitStandButtons: function() {
+    //player decides to hit or stand based on current total
+    //create hit and stand buttons, apppend to player-cards div
+
+    this.$playerCardsSection.append(this.$hitButton);
+    this.$playerCardsSection.append(this.$standButton);
+
+    this.$hitButton.on("click", function(e) {
+      game.hitPlayer();
+      game.addUpDealtCards(); 
+    });
+
+    //hit dealer if total < 17
+    //hit dealer view
+
+    //
+  },
+
+  hitPlayer: function() {
+    var hitCard = deck.cards[0];
+    this.playerCards.push(hitCard);
+    deck.cards.shift();
+    this.playerCardsView(hitCard);
+  }
 };
 
 // $('modal-button').on("click", function() {
