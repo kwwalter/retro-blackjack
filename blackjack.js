@@ -56,7 +56,7 @@ var game = {
   $playerCardsSection: $('.player-cards'),
   dealerTotal: 0,
   playerTotal: 0,
-  $betSubmit: $('.bet-submit'),
+  $deal: $('#deal-button'),
 
   initializeGame: function () {
     deck.createDeck();
@@ -64,29 +64,24 @@ var game = {
     bankRoll.initializeBankRoll();
 
     alert("Enter your bet before cards are dealt, otherwise your bet will be $5!");
-
-    this.dealCards();
-    this.compareHands();
   },
 
   setListeners: function() {
-    this.$betSubmit.on("click", function(e) {
+    this.$deal.on("click", function(e) {
       game.placeBet();
+      game.dealCards();
+      game.compareHands(); 
     });
   },
 
   placeBet: function() {
-    // alert("Enter your bet!");
+    game.bet = $('#player-bet').val();
+    console.log(game.bet);
 
-    this.$betSubmit.on("click", function(e) {
-      game.bet = $('#player-bet').val();
-      console.log(game.bet);
-
-      if ($('#player-bet').val() > bankRoll.totalCash) {
-        alert("You don't have enough cash. Please try not to fuck up next time.");
-        game.placeBet();
-      }
-    });
+    if ($('#player-bet').val() > bankRoll.totalCash) {
+      alert("You don't have enough cash. Please try not to fuck up next time.");
+      game.placeBet();
+    }
   },
 
   dealCards: function() {
