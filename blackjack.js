@@ -59,8 +59,19 @@ var game = {
   }
 
   dealCards: function() {
-    for (var i = 0; i < 4; i++) {
-      playerCards.push(deck.cards[i]; 
+    //For initial deal only. If dealer or player hit and there are no cards left in the deck, we will recreate and shuffle the deck then.
+
+    if (deck.cards.length < 4) {
+      deck.createDeck();
+      deck.shuffleDeck();
+    }
+
+    for (var i = 0; i < 2; i++) {
+      playerCards.push(deck.cards[i]);
+      deck.cards.shift();
+      
+      dealerCards.push(deck.cards[i]);
+      deck.cards.shift();
     }
   }
 }
