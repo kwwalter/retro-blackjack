@@ -59,6 +59,8 @@ var game = {
   $deal: $('#deal-button'),
 
   initializeGame: function () {
+    this.setListeners();
+
     deck.createDeck();
     deck.shuffleDeck();
     bankRoll.initializeBankRoll();
@@ -70,7 +72,7 @@ var game = {
     this.$deal.on("click", function(e) {
       game.placeBet();
       game.dealCards();
-      game.compareHands(); 
+      game.compareHands();
     });
   },
 
@@ -79,8 +81,8 @@ var game = {
     console.log(game.bet);
 
     if ($('#player-bet').val() > bankRoll.totalCash) {
-      alert("You don't have enough cash. Please try not to fuck up next time.");
-      game.placeBet();
+      alert("You don't have enough cash. Your bet has been set to your remaining amount of cash.");
+      game.bet = bankRoll.totalCash; 
     }
   },
 

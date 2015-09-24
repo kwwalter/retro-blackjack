@@ -60,9 +60,10 @@ main {
   background: blue;
   color: white;
   font-size: 10px;
+  border: 2px solid black; 
 }
 
 footer {
-  padding: 1rem; 
+  padding: 1rem;
   text-align: center;
 }
