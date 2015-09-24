@@ -35,5 +35,38 @@ var deck = {
   },
 }
 
-deck.createDeck();
-deck.shuffleDeck(); 
+var bankRoll = {
+  totalCash: 100,
+  playerName: "",
+
+  initializeBankRoll: function() {
+    playerName = prompt("What's your name?");
+    $('.player-name').text("Player name: " + playerName);
+
+    // alert("Welcome to Las Vegas! Assuming you showed up empty-handed, here's $100.");
+    $('.total-cash').text("Total cash: $" + this.totalCash);
+  }
+}
+
+var game = {
+  dealerCards: [],
+  playerCards: [],
+
+  initializeGame: function () {
+    deck.createDeck();
+    deck.shuffleDeck();
+    bankRoll.initializeBankRoll();
+  }
+
+  dealCards: function() {
+    for (var i = 0; i < 4; i++) {
+      playerCards.push(deck.cards[i]; 
+    }
+  }
+}
+
+// $('modal-button').on("click", function() {
+//   game.initializeGame();
+// });
+
+game.initializeGame();
