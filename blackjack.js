@@ -43,8 +43,12 @@ var bankRoll = {
     this.playerName = prompt("What's your name?");
     $('.player-name').text("Player name: " + this.playerName);
 
-    this.totalCash = prompt("How much money do you have?");
-    $('.total-cash').text("Total cash: $" + this.totalCash);
+    this.totalCash = Number(prompt("How much money do you have?"));
+    $('.total-cash').html("Total cash: $", this.totalCash);
+  },
+
+  updateBankRollView: function() {
+    $('.total-cash').html("Total cash: $", this.totalCash);
   }
 }
 
@@ -70,20 +74,20 @@ var game = {
 
   setListeners: function() {
     this.$deal.on("click", function(e) {
-      game.placeBet();
+      game.submitBet();
       game.dealCards();
-      game.compareHands();
+      game.checkHands();
     });
   },
 
-  placeBet: function() {
-    game.bet = $('#player-bet').val();
-    console.log(game.bet);
-
+  submitBet: function() {
     if ($('#player-bet').val() > bankRoll.totalCash) {
       alert("You don't have enough cash. Your bet has been set to your remaining amount of cash.");
-      game.bet = bankRoll.totalCash; 
+      game.bet = bankRoll.totalCash;
     }
+
+    game.bet = $('#player-bet').val();
+    console.log(game.bet);
   },
 
   dealCards: function() {
@@ -105,6 +109,17 @@ var game = {
       deck.cards.shift();
       this.dealerCardsView(newDealerCard);
     }
+
+    if (this.dealerTotal === 21 && this.playerTotal < 21) {
+      alert("Blackjack for dealer! House wins!");
+      bankRoll.totalCash -= this.bet;
+      bankRoll.updateBankRollView();
+
+    } else if (this.playerTotal === 21) {
+      alert("Blackjack! You win!");
+      bankRoll.totalCash += (this.bet * 1.5);
+      bankRoll.updateBankRollView();
+    }
   },
 
   dealerCardsView: function(card) {
@@ -117,7 +132,7 @@ var game = {
     this.$playerCardsSection.append(cardView);
   },
 
-  compareHands: function() {
+  checkHands: function() {
     for (var b = 0; b < this.dealerCards.length; b++) {
       if (this.dealerCards[b].rank == "A") {
         if (this.dealerTotal <= 10) {
@@ -149,9 +164,6 @@ var game = {
         this.playerTotal += Number(this.playerCards[c].rank);
       }
     }
-
-    console.log(this.dealerTotal);
-    console.log(this.playerTotal);
   },
 };
 
