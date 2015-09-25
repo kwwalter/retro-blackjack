@@ -223,14 +223,17 @@ var game = {
       game.compareHands();
 
       //hit dealer if total < 17, and while player still has cards (so that this doesn't happen even after dealer wins or busts)
-      while (game.dealerTotal < 17 && game.playerTotal > 0 && game.dealerTotal > 0) {
+      while (game.dealerTotal < 17 && game.playerTotal > 0) {
         //check to see if dealer wins
         alert("dealer hits!");
         game.hitDealer();
         game.addUpDealtCards();
         game.checkDealerforAces();
         game.checkDealerBust();
-        game.compareHands();
+
+        if (game.dealerTotal > 0 && game.playerTotal > 0) {
+          game.compareHands();
+        }
       }
     });
   },
