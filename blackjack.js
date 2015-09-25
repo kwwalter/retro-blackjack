@@ -1,7 +1,7 @@
 function Card(rank, suit) {
   this.rank = rank;
   this.suit = suit;
-  this.backgroundPosition = this.backgroundPosition();
+  this.backgroundPos = this.backgroundPosition();
 };
 
 Card.prototype.backgroundPosition = function() {
@@ -138,7 +138,7 @@ var game = {
   dealerCardsView: function(card) {
     // var cardView = $('<div class="card-in-play"><h2>' + card.rank + '</h2><h2>' + card.suit + '</h2></div>');
     var $cardView = $('<div class="card-in-play"></div>');
-    $cardView.css("background-position", card.backgroundPosition);
+    $cardView.css("background-position", card.backgroundPos);
 
     this.$dealerCardsSection.append($cardView);
   },
@@ -146,7 +146,7 @@ var game = {
   playerCardsView: function(card) {
     // var cardView = $('<div class="card-in-play"><h2>' + card.rank + '</h2><h2>' + card.suit + '</h2></div>');
     var $cardView = $('<div class="card-in-play"></div>');
-    $cardView.css("background-position", card.backgroundPosition);
+    $cardView.css("background-position", card.backgroundPos);
 
     this.$playerCardsSection.append($cardView);
   },
@@ -236,6 +236,7 @@ var game = {
 
     this.$standButton.on("click", function(e) {
       //reveal dealer's first card
+      game.revealDealerFirstCard(game.dealerCards[0]);
 
       //playerTotal is now set. have to compare.
       game.compareHands();
@@ -254,6 +255,22 @@ var game = {
         }
       }
     });
+  },
+
+  revealDealerFirstCard: function(card) {
+    var background = (card.backgroundPos).toString() + " !important";
+    console.log(background);
+    var $dealerFirstCard = $('.dealer-cards > .card-in-play:first-of-type');
+
+    $dealerFirstCard.css("background", "url(images/CardsSpriteSheet.png)");
+    $dealerFirstCard.css("background-position", background);
+    $dealerFirstCard.css("background-size", "1300% 400%");
+
+
+    // var $dealerFirstCardView = $('<div class="card-in-play"></div>');
+    // $dealerFirstCardView.css("background-position", this.dealerCards[0].backgroundPos);
+    //
+    // this.$dealerCardsSection.prepend($dealerFirstCardView);
   },
 
   hitPlayer: function() {

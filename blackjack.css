@@ -87,7 +87,7 @@ main {
   background-size: 1300% 400%;
 }
 
-/* for goomba background
+/*for goomba background
 .dealer-cards .card-in-play:first-of-type {
   max-width:100%;
   max-height:100%;
@@ -112,7 +112,7 @@ main {
   background: url(images/mario-cards-back.jpg);
   background-size: contain;
   background-repeat: no-repeat;
-  overflow: hidden;
+  /*overflow: hidden;*/
 
   background-position: 0px 0px !important;
 }
