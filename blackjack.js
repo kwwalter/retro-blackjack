@@ -1,14 +1,15 @@
 function Card(rank, suit) {
   this.rank = rank;
   this.suit = suit;
+  this.backgroundPosition = this.backgroundPosition();
 };
 
 Card.prototype.backgroundPosition = function() {
   var suits = ["clubs", "diamonds", "hearts", "spades"];
   var ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
 
-  suitOffset = -42 * suits.indexOf(this.suit) + "px";
-  rankOffset = -62 * ranks.indexOf(this.rank) + "px";
+  suitOffset = -62 * suits.indexOf(this.suit) + "px";
+  rankOffset = -42 * ranks.indexOf(this.rank) + "px";
 
   return rankOffset + " " + suitOffset;
 }
@@ -84,7 +85,7 @@ var game = {
     this.setListeners();
 
     deck.createDeck();
-    // deck.shuffleDeck();
+    deck.shuffleDeck();
     bankRoll.initializeBankRoll();
 
     // alert("Enter your bet before cards are dealt, otherwise your bet will be $5!");
@@ -137,7 +138,7 @@ var game = {
   dealerCardsView: function(card) {
     // var cardView = $('<div class="card-in-play"><h2>' + card.rank + '</h2><h2>' + card.suit + '</h2></div>');
     var $cardView = $('<div class="card-in-play"></div>');
-    // $cardView.css("top: ")
+    $cardView.css("background-position", card.backgroundPosition);
 
     this.$dealerCardsSection.append($cardView);
   },
@@ -145,6 +146,8 @@ var game = {
   playerCardsView: function(card) {
     // var cardView = $('<div class="card-in-play"><h2>' + card.rank + '</h2><h2>' + card.suit + '</h2></div>');
     var $cardView = $('<div class="card-in-play"></div>');
+    $cardView.css("background-position", card.backgroundPosition);
+
     this.$playerCardsSection.append($cardView);
   },
 
