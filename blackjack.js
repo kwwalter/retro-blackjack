@@ -3,10 +3,20 @@ function Card(rank, suit) {
   this.suit = suit;
 };
 
+Card.prototype.backgroundPosition = function() {
+  var suits = ["clubs", "diamonds", "hearts", "spades"];
+  var ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+
+  suitOffset = -42 * suits.indexOf(this.suit) + "px";
+  rankOffset = -62 * ranks.indexOf(this.rank) + "px";
+
+  return rankOffset + " " + suitOffset;
+}
+
 var deck = {
   cards: [],
-  suits: ["clubs", "spades", "diamonds", "hearts"],
-  ranks: ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"],
+  suits: ["clubs", "diamonds", "hearts", "spades"],
+  ranks: ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"],
 
   createDeck: function() {
     for (var i = 0; i < this.ranks.length; i++) {
@@ -74,7 +84,7 @@ var game = {
     this.setListeners();
 
     deck.createDeck();
-    deck.shuffleDeck();
+    // deck.shuffleDeck();
     bankRoll.initializeBankRoll();
 
     // alert("Enter your bet before cards are dealt, otherwise your bet will be $5!");
@@ -110,12 +120,12 @@ var game = {
     }
 
     for (var i = 0; i < 2; i++) {
-      var newPlayerCard = deck.cards[i];
+      var newPlayerCard = deck.cards[0];
       this.playerCards.push(newPlayerCard);
       deck.cards.shift();
       this.playerCardsView(newPlayerCard);
 
-      var newDealerCard = deck.cards[i];
+      var newDealerCard = deck.cards[0];
       this.dealerCards.push(newDealerCard);
       deck.cards.shift();
       this.dealerCardsView(newDealerCard);
@@ -126,14 +136,16 @@ var game = {
 
   dealerCardsView: function(card) {
     // var cardView = $('<div class="card-in-play"><h2>' + card.rank + '</h2><h2>' + card.suit + '</h2></div>');
-    var cardView = $('<div class="card-in-play"></div>');
-    this.$dealerCardsSection.append(cardView);
+    var $cardView = $('<div class="card-in-play"></div>');
+    // $cardView.css("top: ")
+
+    this.$dealerCardsSection.append($cardView);
   },
 
   playerCardsView: function(card) {
     // var cardView = $('<div class="card-in-play"><h2>' + card.rank + '</h2><h2>' + card.suit + '</h2></div>');
-    var cardView = $('<div class="card-in-play"></div>');
-    this.$playerCardsSection.append(cardView);
+    var $cardView = $('<div class="card-in-play"></div>');
+    this.$playerCardsSection.append($cardView);
   },
 
   addUpDealtCards: function() {

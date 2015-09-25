@@ -58,7 +58,7 @@ main {
   width: 42px;
   height: 62px;
 
-  background-image: url(images/CardsSpriteSheet.png);
+  background: url(images/CardsSpriteSheet.png) 0 0;
   background-repeat: no-repeat;
   /*background-size: contain;*/
 }
