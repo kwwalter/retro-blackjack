@@ -178,6 +178,7 @@ var game = {
     //     }
     // }
 
+    this.checkPlayerforAces();
     this.checkPlayerBust();
   },
 
@@ -212,8 +213,14 @@ var game = {
 
     this.$standButton.on("click", function(e) {
       //playerTotal is now set
+
       //hit dealer if total < 17
-      //hit dealer view
+      while (this.dealerTotal < 17) {
+        alert("dealer hits!");
+        game.hitDealer();
+
+        game.compareHands();
+      }
     });
   },
 
@@ -224,28 +231,28 @@ var game = {
     this.playerCardsView(hitCard);
   },
 
-  updatePlayerCardTotal: function() {
-    var index = this.playerCards.length - 1;
-
-    if (this.playerCards[index].rank == "A") {
-      if (this.playerTotal <= 10) {
-        this.playerTotal += 11;
-      } else {
-        this.playerTotal += 1;
-      }
-    } else if (this.playerCards[index].rank == "J" ||
-               this.playerCards[index].rank == "Q" ||
-               this.playerCards[index].rank == "K") {
-        this.playerTotal += 10;
-    } else {
-      this.playerTotal += Number(this.playerCards[index].rank);
-    }
-
-    console.log(this.playerTotal);
-
-    this.checkPlayerforAces();
-    this.checkPlayerBust();
-  },
+  // updatePlayerCardTotal: function() {
+  //   var index = this.playerCards.length - 1;
+  //
+  //   if (this.playerCards[index].rank == "A") {
+  //     if (this.playerTotal <= 10) {
+  //       this.playerTotal += 11;
+  //     } else {
+  //       this.playerTotal += 1;
+  //     }
+  //   } else if (this.playerCards[index].rank == "J" ||
+  //              this.playerCards[index].rank == "Q" ||
+  //              this.playerCards[index].rank == "K") {
+  //       this.playerTotal += 10;
+  //   } else {
+  //     this.playerTotal += Number(this.playerCards[index].rank);
+  //   }
+  //
+  //   console.log(this.playerTotal);
+  //
+  //   this.checkPlayerforAces();
+  //   this.checkPlayerBust();
+  // },
 
   checkPlayerforAces: function() {
     if (this.playerTotal > 21) {
@@ -255,6 +262,7 @@ var game = {
           }
         }
     }
+    console.log(this.playerTotal);
   },
 
   checkPlayerBust: function() {
@@ -269,6 +277,50 @@ var game = {
     }
   },
 
+  hitDealer: function() {
+    var dealerHitCard = deck.cards[0];
+    this.dealerCards.push(dealerHitCard);
+    deck.cards.shift();
+    this.dealerCardsView(dealerHitCard);
+  },
+
+  compareHands: function() {
+    if (this.dealerTotal > this.playerTotal) {
+      alert("Dealer's hand beats the player's--house wins!");
+
+
+      bankRoll.totalCash -= this.bet;
+      bankRoll.updateBankRollView();
+
+      //remove the cards from the player and dealer cards arrays
+      //remove the card views from both sides as well
+
+      //turn the deal button listener back on so we can play again!
+      this.setListeners();
+    }
+  },
+
+  checkDealerforAces: function() {
+    if (this.dealerTotal > 21) {
+      for (var e = 0; e < this.dealerCards.length; e++) {
+        if (this.dealerCards[e].rank == "A") {
+          this.dealerTotal -= 10;
+          }
+        }
+    }
+    console.log(this.dealerTotal);
+  },
+
+  checkDealerBust: function() {
+    //then, if the total is still above 21, the player loses.
+    if (this.dealerTotal > 21) {
+      alert("Dealer busts! You win by default--hooray!");
+      bankRoll.totalCash += (this.bet * 1.5);
+      bankRoll.updateBankRollView();
+    } else {
+      return;
+    }
+  },
 };
 
 // $('modal-button').on("click", function() {
