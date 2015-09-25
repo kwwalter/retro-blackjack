@@ -74,7 +74,7 @@ main {
 
   background: url(images/CardsSpriteSheet.png) 0 0;
   background-repeat: no-repeat;
-  /*background-size: contain;*/
+  background-size: 200%;
 }
 
 .dealer-cards .card-in-play:first-of-type {
