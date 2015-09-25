@@ -58,6 +58,10 @@ main > section {
   padding: 3rem 0.5rem;
 }
 
+section h2 {
+  padding: 1rem 0;
+}
+
 .dealer-face {
   /*height: 50px;
   width: 30px;*/
@@ -68,15 +72,39 @@ main {
   box-shadow: 2px 2px 3px black;
 }
 
+.play-buttons button {
+  padding: 0 1rem;
+}
+
 .card-in-play {
-  width: 42px;
-  height: 62px;
+  width: 84px;
+  height: 124px;
+
+  float: left;
 
   background: url(images/CardsSpriteSheet.png) 0 0;
   background-repeat: no-repeat;
-  background-size: 200%;
+  background-size: 1300% 400%;
 }
 
+/* for goomba background
+.dealer-cards .card-in-play:first-of-type {
+  max-width:100%;
+  max-height:100%;
+
+  background: url(images/back-card.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow: hidden;
+
+  background-position: -5px -3px !important;
+
+  border: 1.5px dotted black;
+  border-radius: 15px;
+}
+*/
+
+/* for mario background */
 .dealer-cards .card-in-play:first-of-type {
   max-width:100%;
   max-height:100%;

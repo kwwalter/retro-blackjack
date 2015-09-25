@@ -8,8 +8,8 @@ Card.prototype.backgroundPosition = function() {
   var suits = ["clubs", "diamonds", "hearts", "spades"];
   var ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
 
-  suitOffset = -62 * suits.indexOf(this.suit) + "px";
-  rankOffset = -42 * ranks.indexOf(this.rank) + "px";
+  suitOffset = -124 * suits.indexOf(this.suit) + "px";
+  rankOffset = -84 * ranks.indexOf(this.rank) + "px";
 
   return rankOffset + " " + suitOffset;
 }
@@ -223,8 +223,9 @@ var game = {
     //player decides to hit or stand based on current total
     //create hit and stand buttons, apppend to player-cards div
 
-    this.$playerCardsSection.append(this.$hitButton);
-    this.$playerCardsSection.append(this.$standButton);
+    $('.play-buttons').append(this.$hitButton);
+    $('.play-buttons').append(this.$standButton);
+
 
     this.$hitButton.on("click", function(e) {
       game.hitPlayer();
@@ -234,7 +235,7 @@ var game = {
     });
 
     this.$standButton.on("click", function(e) {
-      console.log("testing the click button!");
+      //reveal dealer's first card
 
       //playerTotal is now set. have to compare.
       game.compareHands();
