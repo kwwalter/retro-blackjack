@@ -218,9 +218,9 @@ var game = {
       while (this.dealerTotal < 17) {
         alert("dealer hits!");
         game.hitDealer();
-
-        game.compareHands();
       }
+
+      game.compareHands();
     });
   },
 
@@ -272,6 +272,8 @@ var game = {
       bankRoll.totalCash -= this.bet;
       bankRoll.updateBankRollView();
       this.$hitButton.off();
+      this.setListeners();
+      //also have to remove cards from arrays and views
     } else {
       return;
     }
@@ -286,8 +288,10 @@ var game = {
 
   compareHands: function() {
     if (this.dealerTotal > this.playerTotal) {
-      alert("Dealer's hand beats the player's--house wins!");
+      this.checkDealerforAces();
+      this.checkDealerBust();
 
+      alert("Dealer's hand beats the player's--house wins!");
 
       bankRoll.totalCash -= this.bet;
       bankRoll.updateBankRollView();
