@@ -4,6 +4,21 @@
   margin: 0;
 }
 
+@font-face {
+		font-family: ArcadeFont;
+		src: url('fonts/ARCADEPI.TTF');
+}
+
+@font-face {
+		font-family: EightBitFont;
+		src: url('fonts/8bit16.ttf');
+}
+
+@font-face {
+		font-family: EightBitMadness;
+		src: url('fonts/8-bit Madness.ttf');
+}
+
 /*.modal {
 position: fixed;
 top: 0;
@@ -20,11 +35,33 @@ body {
   /*z-index: 1*/
   background: green;
   /*filter: blur(20px);*/
+  font-family: ArcadeFont, serif;
+  /*font-family: EightBitFont, serif;*/
+}
+
+.intro-head {
+  font-size: 2rem;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+
+  text-align: center;
+
+  padding: 1rem;
+}
+
+.intro-image {
+  padding: 1rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto
 }
 
 header {
   background: steelblue;
   width: 80%;
+
+  font-size: 1.25rem;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 
   padding: 2rem;
   margin: 0 auto;
@@ -34,14 +71,10 @@ header {
 
 .player-name {
   float: left;
-
-  background: tan;
 }
 
 .total-cash {
   float: right;
-
-  background: tan;
 }
 
 main {
