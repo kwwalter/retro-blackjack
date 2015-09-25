@@ -40,10 +40,10 @@ var bankRoll = {
   playerName: "",
 
   initializeBankRoll: function() {
-    this.playerName = prompt("What's your name?");
+    // this.playerName = prompt("What's your name?");
     $('.player-name').text("Player name: " + this.playerName);
 
-    this.totalCash = Number(prompt("How much money do you have?"));
+    // this.totalCash = Number(prompt("How much money do you have?"));
 
     if (this.totalCash == "") {
       this.totalCash = 100;
@@ -77,7 +77,7 @@ var game = {
     deck.shuffleDeck();
     bankRoll.initializeBankRoll();
 
-    alert("Enter your bet before cards are dealt, otherwise your bet will be $5!");
+    // alert("Enter your bet before cards are dealt, otherwise your bet will be $5!");
   },
 
   setListeners: function() {
@@ -133,6 +133,9 @@ var game = {
   },
 
   addUpDealtCards: function() {
+    this.dealerTotal = 0;
+    this.playerTotal = 0;
+
     for (var b = 0; b < this.dealerCards.length; b++) {
       if (this.dealerCards[b].rank == "A") {
         if (this.dealerTotal <= 10) {
@@ -166,6 +169,16 @@ var game = {
     }
 
     console.log(this.dealerTotal, this.playerTotal);
+
+    // if (this.playerTotal > 21) {
+    //   for (var d = 0; d < this.playerCards.length; d++) {
+    //     if (this.playerCards[d].rank == "A") {
+    //       this.playerTotal -= 10;
+    //       }
+    //     }
+    // }
+
+    this.checkPlayerBust();
   },
 
   checkForBlackjack: function() {
@@ -193,13 +206,15 @@ var game = {
 
     this.$hitButton.on("click", function(e) {
       game.hitPlayer();
-      game.addUpDealtCards(); 
+      // game.updatePlayerCardTotal();
+      game.addUpDealtCards();
     });
 
-    //hit dealer if total < 17
-    //hit dealer view
-
-    //
+    this.$standButton.on("click", function(e) {
+      //playerTotal is now set
+      //hit dealer if total < 17
+      //hit dealer view
+    });
   },
 
   hitPlayer: function() {
@@ -207,7 +222,53 @@ var game = {
     this.playerCards.push(hitCard);
     deck.cards.shift();
     this.playerCardsView(hitCard);
-  }
+  },
+
+  updatePlayerCardTotal: function() {
+    var index = this.playerCards.length - 1;
+
+    if (this.playerCards[index].rank == "A") {
+      if (this.playerTotal <= 10) {
+        this.playerTotal += 11;
+      } else {
+        this.playerTotal += 1;
+      }
+    } else if (this.playerCards[index].rank == "J" ||
+               this.playerCards[index].rank == "Q" ||
+               this.playerCards[index].rank == "K") {
+        this.playerTotal += 10;
+    } else {
+      this.playerTotal += Number(this.playerCards[index].rank);
+    }
+
+    console.log(this.playerTotal);
+
+    this.checkPlayerforAces();
+    this.checkPlayerBust();
+  },
+
+  checkPlayerforAces: function() {
+    if (this.playerTotal > 21) {
+      for (var d = 0; d < this.playerCards.length; d++) {
+        if (this.playerCards[d].rank == "A") {
+          this.playerTotal -= 10;
+          }
+        }
+    }
+  },
+
+  checkPlayerBust: function() {
+    //then, if the total is still above 21, the player loses.
+    if (this.playerTotal > 21) {
+      alert("Player busts! Sorry, you lose.");
+      bankRoll.totalCash -= this.bet;
+      bankRoll.updateBankRollView();
+      this.$hitButton.off();
+    } else {
+      return;
+    }
+  },
+
 };
 
 // $('modal-button').on("click", function() {
