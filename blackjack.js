@@ -172,13 +172,13 @@ var game = {
 
     console.log(this.dealerTotal, this.playerTotal);
 
-    this.checkPlayerforAces();
-    this.checkPlayerBust();
-
-    this.checkDealerforAces();
-    this.checkDealerBust();
-
-    this.compareHands();
+    // this.checkPlayerforAces();
+    // this.checkPlayerBust();
+    //
+    // this.checkDealerforAces();
+    // this.checkDealerBust();
+    //
+    // this.compareHands();
   },
 
   checkForBlackjack: function() {
@@ -211,23 +211,26 @@ var game = {
 
     this.$hitButton.on("click", function(e) {
       game.hitPlayer();
-      // game.updatePlayerCardTotal();
       game.addUpDealtCards();
+      game.checkPlayerforAces();
+      game.checkPlayerBust();
     });
 
     this.$standButton.on("click", function(e) {
       console.log("testing the click button!");
 
       //playerTotal is now set. have to compare.
+      game.compareHands();
 
       //hit dealer if total < 17, and while player still has cards (so that this doesn't happen even after dealer wins or busts)
       while (game.dealerTotal < 17 && game.playerTotal > 0 && game.dealerTotal > 0) {
         //check to see if dealer wins
-        game.compareHands();
-
         alert("dealer hits!");
         game.hitDealer();
         game.addUpDealtCards();
+        game.checkDealerforAces();
+        game.checkDealerBust();
+        game.compareHands();
       }
     });
   },
@@ -273,9 +276,10 @@ var game = {
   },
 
   compareHands: function() {
-    if (this.playerCards.length == 2) {
-      return;
-    } else if (this.dealerTotal > this.playerTotal) {
+    // if (this.playerCards.length == 2 && this.dealerCards.length == 2) {
+    //   return;
+    // } else
+    if (this.dealerTotal > this.playerTotal) {
       alert("Dealer's hand beats the player's--house wins!");
 
       bankRoll.totalCash -= this.bet;
