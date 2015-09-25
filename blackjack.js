@@ -224,8 +224,10 @@ var game = {
         alert("dealer hits!");
         game.hitDealer();
         game.addUpDealtCards();
-        game.compareHands();
       }
+
+    //then compare the two hands
+    game.compareHands();
     });
   },
 
@@ -277,8 +279,8 @@ var game = {
       bankRoll.totalCash -= this.bet;
       bankRoll.updateBankRollView();
       this.$hitButton.off();
-      this.setListeners();
-      //also have to remove cards from arrays and views
+
+      this.removeCardsAndDealAgain();
     } else {
       return;
     }
@@ -294,19 +296,23 @@ var game = {
 
   compareHands: function() {
     if (this.dealerTotal > this.playerTotal) {
-      // this.checkDealerforAces();
-      // this.checkDealerBust();
-
       alert("Dealer's hand beats the player's--house wins!");
 
       bankRoll.totalCash -= this.bet;
       bankRoll.updateBankRollView();
 
-      //remove the cards from the player and dealer cards arrays
-      //remove the card views from both sides as well
+      this.removeCardsAndDealAgain();
 
-      //turn the deal button listener back on so we can play again!
-      this.setListeners();
+    } else if (this.dealerTotal == this.playerTotal) {
+      alert("the result is a draw--no one wins! Your bet has been returned to you.");
+
+      this.removeCardsAndDealAgain();
+    } else if (this.dealerTotal < this.playerTotal) {
+      alert("Player wins! Congrats!");
+      bankRoll.totalCash += (this.bet * 1.5);
+      bankRoll.updateBankRollView();
+
+      this.removeCardsAndDealAgain();
     }
   },
 
@@ -328,13 +334,31 @@ var game = {
       bankRoll.totalCash += (this.bet * 1.5);
       bankRoll.updateBankRollView();
 
-      //have to remove cards from arrays and views
-
-      this.setListeners();
+      this.removeCardsAndDealAgain();
     } else {
       return;
     }
   },
+
+  removeCardsAndDealAgain: function() {
+    //set dealer and player totals to 0, so they don't bust when drawing again.
+    this.dealerTotal = 0;
+    this.playerTotal = 0;
+
+    //remove the cards from the player and dealer cards arrays
+    for (var x = this.playerCards.length - 1; x >= 0; x--) {
+      this.playerCards.pop();
+    }
+    for (var y = this.dealerCards.length - 1; y >= 0; y--) {
+      this.dealerCards.pop();
+    }
+    console.log("Player cards: ", this.playerCards, "Dealer cards: ", this.dealerCards)
+
+    //remove the card views from both sides as well
+
+    //turn the deal button listener back on so we can play again!
+    this.setListeners();
+  }
 };
 
 // $('modal-button').on("click", function() {
