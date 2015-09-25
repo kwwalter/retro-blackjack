@@ -4,8 +4,22 @@
   margin: 0;
 }
 
+/*.modal {
+position: fixed;
+top: 0;
+right: 0;
+bottom: 0;
+left: 0;
+z-index: 2;
+display: block;
+overflow: auto;
+overflow-y: scroll;
+}*/
+
 body {
+  /*z-index: 1*/
   background: green;
+  /*filter: blur(20px);*/
 }
 
 header {
@@ -38,7 +52,7 @@ main {
 
 main > section {
   float: left;
-  background: white;
+  background: floralwhite;
   width: 50%;
   min-height: 400px;
   padding: 3rem 0.5rem;
@@ -61,6 +75,18 @@ main {
   background: url(images/CardsSpriteSheet.png) 0 0;
   background-repeat: no-repeat;
   /*background-size: contain;*/
+}
+
+.dealer-cards .card-in-play:first-of-type {
+  max-width:100%;
+  max-height:100%;
+
+  background: url(images/mario-cards-back.jpg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  overflow: hidden;
+
+  background-position: 0px 0px !important;
 }
 
 footer {
