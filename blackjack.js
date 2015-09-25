@@ -327,6 +327,10 @@ var game = {
       alert("Dealer busts! You win by default--hooray!");
       bankRoll.totalCash += (this.bet * 1.5);
       bankRoll.updateBankRollView();
+
+      //have to remove cards from arrays and views
+
+      this.setListeners();
     } else {
       return;
     }
