@@ -93,10 +93,12 @@ var game = {
     if ($('#player-bet').val() > bankRoll.totalCash) {
       alert("You don't have enough cash. Your bet has been set to your remaining amount of cash.");
       game.bet = bankRoll.totalCash;
+    } else if ($('#player-bet').val() == "") {
+      game.bet = 5;
     } else {
       game.bet = $('#player-bet').val();
     }
-    console.log(game.bet);
+    console.log("Bet is: ", game.bet);
   },
 
   dealCards: function() {
@@ -123,12 +125,12 @@ var game = {
   },
 
   dealerCardsView: function(card) {
-    var cardView = $('<div><h2>' + card.rank + '</h2><h2>' + card.suit + '</h2></div>');
+    var cardView = $('<div class="card-in-play"><h2>' + card.rank + '</h2><h2>' + card.suit + '</h2></div>');
     this.$dealerCardsSection.append(cardView);
   },
 
   playerCardsView: function(card) {
-    var cardView = $('<div><h2>' + card.rank + '</h2><h2>' + card.suit + '</h2></div>');
+    var cardView = $('<div class="card-in-play"><h2>' + card.rank + '</h2><h2>' + card.suit + '</h2></div>');
     this.$playerCardsSection.append(cardView);
   },
 
@@ -170,31 +172,30 @@ var game = {
 
     console.log(this.dealerTotal, this.playerTotal);
 
-    // if (this.playerTotal > 21) {
-    //   for (var d = 0; d < this.playerCards.length; d++) {
-    //     if (this.playerCards[d].rank == "A") {
-    //       this.playerTotal -= 10;
-    //       }
-    //     }
-    // }
-
     this.checkPlayerforAces();
     this.checkPlayerBust();
 
     this.checkDealerforAces();
     this.checkDealerBust();
+
+    this.compareHands();
   },
 
   checkForBlackjack: function() {
     if (this.dealerTotal === 21 && this.playerTotal < 21) {
       alert("Blackjack for dealer! House wins!");
+
       bankRoll.totalCash -= this.bet;
       bankRoll.updateBankRollView();
 
+      this.removeCardsAndDealAgain();
     } else if (this.playerTotal === 21) {
       alert("Blackjack! You win!");
+
       bankRoll.totalCash += (this.bet * 1.5);
       bankRoll.updateBankRollView();
+
+      this.removeCardsAndDealAgain();
     } else {
       console.log("no blackjacks here!");
       this.appendHitStandButtons();
@@ -217,17 +218,17 @@ var game = {
     this.$standButton.on("click", function(e) {
       console.log("testing the click button!");
 
-      //playerTotal is now set
+      //playerTotal is now set. have to compare.
 
-      //hit dealer if total < 17
-      while (game.dealerTotal < 17) {
+      //hit dealer if total < 17, and while player still has cards (so that this doesn't happen even after dealer wins or busts)
+      while (game.dealerTotal < 17 && game.playerTotal > 0 && game.dealerTotal > 0) {
+        //check to see if dealer wins
+        game.compareHands();
+
         alert("dealer hits!");
         game.hitDealer();
         game.addUpDealtCards();
       }
-
-    //then compare the two hands
-    game.compareHands();
     });
   },
 
@@ -237,29 +238,6 @@ var game = {
     deck.cards.shift();
     this.playerCardsView(hitCard);
   },
-
-  // updatePlayerCardTotal: function() {
-  //   var index = this.playerCards.length - 1;
-  //
-  //   if (this.playerCards[index].rank == "A") {
-  //     if (this.playerTotal <= 10) {
-  //       this.playerTotal += 11;
-  //     } else {
-  //       this.playerTotal += 1;
-  //     }
-  //   } else if (this.playerCards[index].rank == "J" ||
-  //              this.playerCards[index].rank == "Q" ||
-  //              this.playerCards[index].rank == "K") {
-  //       this.playerTotal += 10;
-  //   } else {
-  //     this.playerTotal += Number(this.playerCards[index].rank);
-  //   }
-  //
-  //   console.log(this.playerTotal);
-  //
-  //   this.checkPlayerforAces();
-  //   this.checkPlayerBust();
-  // },
 
   checkPlayerforAces: function() {
     if (this.playerTotal > 21) {
@@ -295,7 +273,9 @@ var game = {
   },
 
   compareHands: function() {
-    if (this.dealerTotal > this.playerTotal) {
+    if (this.playerCards.length == 2) {
+      return;
+    } else if (this.dealerTotal > this.playerTotal) {
       alert("Dealer's hand beats the player's--house wins!");
 
       bankRoll.totalCash -= this.bet;
@@ -307,7 +287,7 @@ var game = {
       alert("the result is a draw--no one wins! Your bet has been returned to you.");
 
       this.removeCardsAndDealAgain();
-    } else if (this.dealerTotal < this.playerTotal) {
+    } else if (this.dealerTotal >= 17 && (this.dealerTotal < this.playerTotal)) {
       alert("Player wins! Congrats!");
       bankRoll.totalCash += (this.bet * 1.5);
       bankRoll.updateBankRollView();
@@ -335,9 +315,10 @@ var game = {
       bankRoll.updateBankRollView();
 
       this.removeCardsAndDealAgain();
-    } else {
-      return;
     }
+    //   else {
+    //   return;
+    // }
   },
 
   removeCardsAndDealAgain: function() {
@@ -355,9 +336,17 @@ var game = {
     console.log("Player cards: ", this.playerCards, "Dealer cards: ", this.dealerCards)
 
     //remove the card views from both sides as well
+    this.removeCardsView();
 
     //turn the deal button listener back on so we can play again!
     this.setListeners();
+  },
+
+  removeCardsView: function() {
+    $('div').remove('.card-in-play');
+    this.$hitButton.remove();
+    this.$standButton.remove();
+    $('#player-bet').val("");
   }
 };
 
