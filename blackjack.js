@@ -125,12 +125,14 @@ var game = {
   },
 
   dealerCardsView: function(card) {
-    var cardView = $('<div class="card-in-play"><h2>' + card.rank + '</h2><h2>' + card.suit + '</h2></div>');
+    // var cardView = $('<div class="card-in-play"><h2>' + card.rank + '</h2><h2>' + card.suit + '</h2></div>');
+    var cardView = $('<div class="card-in-play"></div>');
     this.$dealerCardsSection.append(cardView);
   },
 
   playerCardsView: function(card) {
-    var cardView = $('<div class="card-in-play"><h2>' + card.rank + '</h2><h2>' + card.suit + '</h2></div>');
+    // var cardView = $('<div class="card-in-play"><h2>' + card.rank + '</h2><h2>' + card.suit + '</h2></div>');
+    var cardView = $('<div class="card-in-play"></div>');
     this.$playerCardsSection.append(cardView);
   },
 
