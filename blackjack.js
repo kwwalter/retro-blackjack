@@ -180,6 +180,9 @@ var game = {
 
     this.checkPlayerforAces();
     this.checkPlayerBust();
+
+    this.checkDealerforAces();
+    this.checkDealerBust();
   },
 
   checkForBlackjack: function() {
@@ -212,15 +215,17 @@ var game = {
     });
 
     this.$standButton.on("click", function(e) {
+      console.log("testing the click button!");
+
       //playerTotal is now set
 
       //hit dealer if total < 17
-      while (this.dealerTotal < 17) {
+      while (game.dealerTotal < 17) {
         alert("dealer hits!");
         game.hitDealer();
+        game.addUpDealtCards();
+        game.compareHands();
       }
-
-      game.compareHands();
     });
   },
 
@@ -280,6 +285,7 @@ var game = {
   },
 
   hitDealer: function() {
+    console.log("testing hitDealer function");
     var dealerHitCard = deck.cards[0];
     this.dealerCards.push(dealerHitCard);
     deck.cards.shift();
@@ -288,8 +294,8 @@ var game = {
 
   compareHands: function() {
     if (this.dealerTotal > this.playerTotal) {
-      this.checkDealerforAces();
-      this.checkDealerBust();
+      // this.checkDealerforAces();
+      // this.checkDealerBust();
 
       alert("Dealer's hand beats the player's--house wins!");
 
