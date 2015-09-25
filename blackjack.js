@@ -77,6 +77,8 @@ var game = {
   $playerCardsSection: $('.player-cards'),
   dealerTotal: 0,
   playerTotal: 0,
+  $dealerTotal: $('.dealer-total'),
+  $playerTotal: $('.player-total'),
   $deal: $('#deal-button'),
   $hitButton: $('<button class="hit-button">HIT</button>'), //haha shit button
   $standButton: $('<button class="stand-button">STAND</button>'),
@@ -187,7 +189,8 @@ var game = {
       }
     }
 
-    console.log(this.dealerTotal, this.playerTotal);
+    this.$dealerTotal.text("Dealer total: ", this.dealerTotal);
+    this.$playerTotal.text("Player total: ", this.playerTotal); 
 
     // this.checkPlayerforAces();
     // this.checkPlayerBust();

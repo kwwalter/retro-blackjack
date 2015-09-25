@@ -56,7 +56,7 @@ body {
 }
 
 header {
-  background: steelblue;
+  background: #006BED;
   width: 80%;
 
   font-size: 1.25rem;
@@ -85,7 +85,8 @@ main {
 
 main > section {
   float: left;
-  background: floralwhite;
+  background: black;
+  color: white;
   width: 50%;
   min-height: 400px;
   padding: 3rem 0.5rem;
@@ -142,7 +143,7 @@ main {
   max-width:100%;
   max-height:100%;
 
-  background: url(images/mario-cards-back.jpg);
+  background: url(images/mario-cards-back.png);
   background-size: contain;
   background-repeat: no-repeat;
   /*overflow: hidden;*/
