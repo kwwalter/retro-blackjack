@@ -288,21 +288,26 @@ var game = {
     this.playerCardsView(hitCard);
   },
 
-  checkPlayerforAces: function() { //need to fix dealer function too!
-    if (this.playerTotal > 21) {
+  checkPlayerforAces: function() {
+    while (this.playerTotal > 21) {
       for (var d = 0; d < this.playerCards.length; d++) {
-        if (this.playerCards[d].rank == "A" && d != playerAceIndex) {
-          this.playerTotal -= 10;
-          playerAceIndex = d;
-          return playerAceIndex;
-          }
+        if (this.playerCards[d].rank == "A" && d !== this.playerAceIndex) {
+          // if (this.playerTotal > 21) {
+            this.playerTotal -= 10;
+            this.$playerTotal.text("Player total: " + this.playerTotal.toString());
+
+            this.playerAceIndex = d;
+          // }
         }
+      }
     }
-    console.log(this.playerTotal);
+
+    console.log("After checking for aces, player total is now", this.playerTotal);
   },
 
   checkPlayerBust: function() {
     //then, if the total is still above 21, the player loses.
+
     if (this.playerTotal > 21) {
       alert("Player busts! Sorry, you lose.");
       bankRoll.totalCash -= this.bet;
@@ -351,14 +356,20 @@ var game = {
   },
 
   checkDealerforAces: function() {
-    if (this.dealerTotal > 21) {
+    while (this.dealerTotal > 21) {
       for (var e = 0; e < this.dealerCards.length; e++) {
-        if (this.dealerCards[e].rank == "A") {
-          this.dealerTotal -= 10;
-          }
+        if (this.dealerCards[e].rank == "A" && e !== this.dealerAceIndex) {
+          // if (this.dealerTotal > 21) {
+            this.dealerTotal -= 10;
+            this.$dealerTotal.text("Dealer total: " + this.dealerTotal.toString());
+
+            this.dealerAceIndex = e;
+          // }
         }
+      }
     }
-    console.log(this.dealerTotal);
+
+    console.log("After checking for aces, dealer total is now", this.dealerTotal);
   },
 
   checkDealerBust: function() {
