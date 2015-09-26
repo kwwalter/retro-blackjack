@@ -32,6 +32,7 @@ overflow-y: scroll;
 }*/
 
 body {
+  position: relative;
   /*z-index: 1*/
   background: green;
   /*filter: blur(20px);*/
@@ -53,6 +54,14 @@ body {
   display: block;
   margin-left: auto;
   margin-right: auto
+}
+
+.game-over-image {
+  /*z-index: 4;*/
+  top: 600px;
+  /*transition: top;
+  transition-delay: 4s;
+  transition-timing-function: linear;*/
 }
 
 header {
@@ -144,17 +153,21 @@ main {
 */
 
 /* for mario background */
-/*.dealer-cards .card-in-play:first-of-type {
-  max-width: 84px;
-  max-height: 126px;
+.dealer-cards .card-in-play:first-of-type {
+  /*width: 84px;
+  height: 124px;
 
-  top: 1px;
+  top: 1px;*/
 
   background: url(images/mario-cards-back-no-bg.png);
   background-repeat: no-repeat;
 
+  /*background-position: 0px 0px !important;*/
+}
+
+.background-card {
   background-position: 0px 0px !important;
-}*/
+}
 
 footer {
   padding: 1rem;

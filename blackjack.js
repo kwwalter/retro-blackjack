@@ -86,7 +86,7 @@ var game = {
   $deal: $('#deal-button'),
   $hitButton: $('<button class="hit-button">HIT</button>'), //haha shit button
   $standButton: $('<button class="stand-button">STAND</button>'),
-  $gameOver: $('<img class="game-over-image" src="images/game-over.png"'),
+  $gameOver: $('<img class="game-over-image" src="images/game-over.png">'),
 
   initializeGame: function () {
     this.setListeners();
@@ -112,9 +112,9 @@ var game = {
     if ($('#player-bet').val() > bankRoll.totalCash) {
       alert("You don't have enough cash. Your bet has been set to your remaining amount of cash.");
       game.bet = bankRoll.totalCash;
-    } else if ($('#player-bet').val() < 5) {
-      alert("Come on buddy, you have to bet at least $5");
-      game.bet = 5;
+    } else if ($('#player-bet').val() < 1) {
+      alert("Come on buddy, you have to bet at least $1");
+      game.bet = 1;
     } else if ($('#player-bet').val() == "") {
       game.bet = 5;
     } else {
@@ -142,6 +142,9 @@ var game = {
       deck.cards.shift();
       this.dealerCardsView(newDealerCard);
     }
+
+    $('.dealer-cards .card-in-play:first-of-type').addClass("background-card");
+    // $('.dealer-cards .card-in-play:first-of-type').css("background", "url(images/mario-cards-back-no-bg.png)");
 
     this.$deal.off();
   },
@@ -263,8 +266,8 @@ var game = {
     });
 
     this.$standButton.on("click", function(e) {
-      //reveal dealer's first card -- commented out until i get it working
-      // game.revealDealerFirstCard(game.dealerCards[0]);
+      // reveal dealer's first card -- commented out until i get it working
+      game.revealDealerFirstCard(game.dealerCards[0]);
 
       //playerTotal is now set. have to compare.
       game.compareHands();
@@ -289,6 +292,8 @@ var game = {
     var background = (card.backgroundPos).toString() + " !important";
     console.log(background);
     var $dealerFirstCard = $('.dealer-cards > .card-in-play:first-of-type');
+
+    $dealerFirstCard.removeClass("background-card");
 
     $dealerFirstCard.css("background", "url(images/CardsSpriteSheet.png)");
     $dealerFirstCard.css("background-position", background);
@@ -494,7 +499,7 @@ var game = {
 
       var oneInThree = 2;
 
-      if (oneInThree = 3){
+      if (oneInThree === 3) {
         var familyMembers = [
           "grandmother",
           "grandfather",
@@ -526,9 +531,22 @@ var game = {
 
         bankRoll.totalCash = randomSums[randomIndex];
         bankRoll.updateBankRollView();
+
       } else {
-          $('body').append($gameOver);
-          alert("Press refresh to try your luck again.");
+          $('.body').css("background", "black");
+          $('.intro-head').remove();
+          $('.intro-image').remove();
+          $('header').remove();
+          $('main').remove();
+          $('footer').remove();
+          // $('.game-over-image').css("top", "0");
+          $('body').append(this.$gameOver);
+          // debugger;
+          // $('.game-over-image').css("top", "0");
+          // $('body').append((this.$gameOver).css("top", "0px"));
+
+          //maybe set timer on this?
+          // alert("Press refresh to try your luck again.");
       }
     }
   }
