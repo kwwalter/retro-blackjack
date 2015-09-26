@@ -73,6 +73,8 @@ var game = {
   dealerCards: [],
   playerCards: [],
   bet: 5,
+  playerAceIndex: null,
+  dealerAceIndex: null,
   $dealerCardsSection: $('.dealer-cards'),
   $playerCardsSection: $('.player-cards'),
   dealerTotal: 0,
@@ -198,10 +200,14 @@ var game = {
     if ((this.dealerTotal === 21 && this.dealerCards.length === 2) && this.playerTotal < 21) {
       alert("Blackjack for dealer! House wins!");
 
-      bankRoll.totalCash -= this.bet;
-      bankRoll.updateBankRollView();
+      // probably dont want this to do this, because then it'll go through
+      // the conditionals again and will result in a dealer win, and then
+      // a draw. should just alert that it's a blackjack.
 
-      this.removeCardsAndDealAgain();
+      // bankRoll.totalCash -= this.bet;
+      // bankRoll.updateBankRollView();
+      //
+      // this.removeCardsAndDealAgain();
     } else if (this.playerTotal === 21 && this.playerCards.length === 2) {
       alert("Blackjack for you! Bravo!");
 
@@ -282,11 +288,13 @@ var game = {
     this.playerCardsView(hitCard);
   },
 
-  checkPlayerforAces: function() {
+  checkPlayerforAces: function() { //need to fix dealer function too!
     if (this.playerTotal > 21) {
       for (var d = 0; d < this.playerCards.length; d++) {
-        if (this.playerCards[d].rank == "A") {
+        if (this.playerCards[d].rank == "A" && d != playerAceIndex) {
           this.playerTotal -= 10;
+          playerAceIndex = d;
+          return playerAceIndex;
           }
         }
     }
