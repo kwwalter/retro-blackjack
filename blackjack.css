@@ -154,19 +154,11 @@ main {
 
 /* for mario background */
 .dealer-cards .card-in-play:first-of-type {
-  /*width: 84px;
+  width: 84px;
   height: 124px;
-
-  top: 1px;*/
 
   background: url(images/mario-cards-back-no-bg.png);
   background-repeat: no-repeat;
-
-  /*background-position: 0px 0px !important;*/
-}
-
-.background-card {
-  background-position: 0px 0px !important;
 }
 
 footer {

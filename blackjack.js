@@ -143,8 +143,9 @@ var game = {
       this.dealerCardsView(newDealerCard);
     }
 
-    $('.dealer-cards .card-in-play:first-of-type').addClass("background-card");
+    // $('.dealer-cards .card-in-play:first-of-type').addClass("background-card");
     // $('.dealer-cards .card-in-play:first-of-type').css("background", "url(images/mario-cards-back-no-bg.png)");
+    $('.dealer-cards .card-in-play:first-of-type').css("background-position", "0 0");
 
     this.$deal.off();
   },
@@ -289,21 +290,11 @@ var game = {
   },
 
   revealDealerFirstCard: function(card) {
-    var background = (card.backgroundPos).toString() + " !important";
-    console.log(background);
     var $dealerFirstCard = $('.dealer-cards > .card-in-play:first-of-type');
 
-    $dealerFirstCard.removeClass("background-card");
-
     $dealerFirstCard.css("background", "url(images/CardsSpriteSheet.png)");
-    $dealerFirstCard.css("background-position", background);
+    $dealerFirstCard.css("background-position", card.backgroundPos);
     $dealerFirstCard.css("background-size", "1300% 400%");
-
-
-    // var $dealerFirstCardView = $('<div class="card-in-play"></div>');
-    // $dealerFirstCardView.css("background-position", this.dealerCards[0].backgroundPos);
-    //
-    // this.$dealerCardsSection.prepend($dealerFirstCardView);
   },
 
   hitPlayer: function() {
