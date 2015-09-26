@@ -84,7 +84,7 @@ main {
 
   background-image: url("images/background-gif.gif");
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
   /*background: black; */
   color: white;
 }

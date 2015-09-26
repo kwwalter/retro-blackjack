@@ -98,7 +98,8 @@ var game = {
       game.submitBet();
       game.dealCards();
       game.addUpDealtCards();
-      game.checkForBlackjack();
+      // game.checkForBlackjack(); //shouldn't run here.
+      game.appendHitStandButtons(); //but this needs to run here.
     });
   },
 
@@ -189,37 +190,35 @@ var game = {
       }
     }
 
-    this.$dealerTotal.text("Dealer total: ", this.dealerTotal);
-    this.$playerTotal.text("Player total: ", this.playerTotal);
-
-    // this.checkPlayerforAces();
-    // this.checkPlayerBust();
-    //
-    // this.checkDealerforAces();
-    // this.checkDealerBust();
-    //
-    // this.compareHands();
+    this.$dealerTotal.text("Dealer total: " + this.dealerTotal.toString());
+    this.$playerTotal.text("Player total: " + this.playerTotal.toString());
   },
 
   checkForBlackjack: function() {
-    if (this.dealerTotal === 21 && this.playerTotal < 21) {
+    if ((this.dealerTotal === 21 && this.dealerCards.length === 2) && this.playerTotal < 21) {
       alert("Blackjack for dealer! House wins!");
 
       bankRoll.totalCash -= this.bet;
       bankRoll.updateBankRollView();
 
       this.removeCardsAndDealAgain();
-    } else if (this.playerTotal === 21) {
-      alert("Blackjack! You win!");
+    } else if (this.playerTotal === 21 && this.playerCards.length === 2) {
+      alert("Blackjack for you! Bravo!");
 
-      bankRoll.totalCash += (this.bet * 1.5);
-      bankRoll.updateBankRollView();
+      //should keep going here, and eventually get to the dealer's chance to hit, and after that there will be another compare
 
-      this.removeCardsAndDealAgain();
-    } else {
-      console.log("no blackjacks here!");
-      this.appendHitStandButtons();
+      // bankRoll.totalCash += (this.bet * 1.5);
+      // bankRoll.updateBankRollView();
+      //
+      // this.removeCardsAndDealAgain();
     }
+
+    //probably don't need this, but need to call appendHitStandButtons() elsewhere.
+
+    // else {
+    //   console.log("no blackjacks here!");
+    //   this.appendHitStandButtons();
+    // }
   },
 
   appendHitStandButtons: function() {
@@ -317,9 +316,9 @@ var game = {
   },
 
   compareHands: function() {
-    // if (this.playerCards.length == 2 && this.dealerCards.length == 2) {
-    //   return;
-    // } else
+    //checking to see if either has blackjack..
+    this.checkForBlackjack();
+
     if (this.dealerTotal > this.playerTotal) {
       alert("Dealer's hand beats the player's--house wins!");
 
@@ -332,7 +331,9 @@ var game = {
       alert("the result is a draw--no one wins! Your bet has been returned to you.");
 
       this.removeCardsAndDealAgain();
-    } else if (this.dealerTotal >= 17 && (this.dealerTotal < this.playerTotal)) {
+    }
+
+    else if (this.dealerTotal >= 17 && (this.dealerTotal < this.playerTotal)) {
       alert("Player wins! Congrats!");
       bankRoll.totalCash += (this.bet * 1.5);
       bankRoll.updateBankRollView();
@@ -391,7 +392,10 @@ var game = {
     $('div').remove('.card-in-play');
     this.$hitButton.remove();
     this.$standButton.remove();
+
     $('#player-bet').val("");
+    this.$dealerTotal.text("Dealer total: ");
+    this.$playerTotal.text("Player total: ");
   }
 };
 
