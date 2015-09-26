@@ -87,6 +87,7 @@ var game = {
   $hitButton: $('<button class="hit-button">HIT</button>'), //haha shit button
   $standButton: $('<button class="stand-button">STAND</button>'),
   $gameOver: $('<img class="game-over-image" src="images/game-over.png">'),
+  $resetButton: $('<button class="reset-button">RESET</button>'),
 
   initializeGame: function () {
     this.setListeners();
@@ -524,20 +525,28 @@ var game = {
         bankRoll.updateBankRollView();
 
       } else {
+          //game over!
+          //maybe shouldn't remove everything, because now I will have to recreate it all upon reset..
+
           $('.body').css("background", "black");
-          $('.intro-head').remove();
-          $('.intro-image').remove();
-          $('header').remove();
-          $('main').remove();
-          $('footer').remove();
+          // $('.intro-head').remove();
+          // $('.intro-image').remove();
+          // $('header').remove();
+          // $('main').remove();
+          // $('footer').remove();
+
           // $('.game-over-image').css("top", "0");
           $('body').append(this.$gameOver);
-          // debugger;
+          $('body').append(this.$resetButton);
+  
           // $('.game-over-image').css("top", "0");
           // $('body').append((this.$gameOver).css("top", "0px"));
 
-          //maybe set timer on this?
-          // alert("Press refresh to try your luck again.");
+          alert("Press reset to try your luck again.");
+
+          this.$resetButton.on("click", function(e) {
+            game.initializeGame();
+          });
       }
     }
   }
