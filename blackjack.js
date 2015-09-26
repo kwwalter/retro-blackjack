@@ -75,6 +75,8 @@ var game = {
   bet: 5,
   playerAceIndex: null,
   dealerAceIndex: null,
+  playerHasAce: false,
+  dealerHasAce: false,
   $dealerCardsSection: $('.dealer-cards'),
   $playerCardsSection: $('.player-cards'),
   dealerTotal: 0,
@@ -161,11 +163,18 @@ var game = {
     this.playerTotal = 0;
 
     for (var b = 0; b < this.dealerCards.length; b++) {
+      // if (this.dealerCards[b].rank == "A") {
+      //   if (this.dealerTotal <= 10) {
+      //     this.dealerTotal += 11;
+      //   } else {
+      //     this.dealerTotal += 1;
+      //   }
+      // }
       if (this.dealerCards[b].rank == "A") {
-        if (this.dealerTotal <= 10) {
-          this.dealerTotal += 11;
-        } else {
+        if (this.dealerTotal > 10) {
           this.dealerTotal += 1;
+        } else {
+          this.dealerTotal += 11;
         }
       } else if (this.dealerCards[b].rank == "J" ||
                  this.dealerCards[b].rank == "Q" ||
@@ -177,11 +186,18 @@ var game = {
     }
 
     for (var c = 0; c < this.playerCards.length; c++) {
+      // if (this.playerCards[c].rank == "A") {
+      //   if (this.playerTotal <= 10) {
+      //     this.playerTotal += 11;
+      //   } else {
+      //     this.playerTotal += 1;
+      //   }
+      // }
       if (this.playerCards[c].rank == "A") {
-        if (this.playerTotal <= 10) {
-          this.playerTotal += 11;
-        } else {
+        if (this.playerTotal > 10) {
           this.playerTotal += 1;
+        } else {
+          this.playerTotal += 11;
         }
       } else if (this.playerCards[c].rank == "J" ||
                  this.playerCards[c].rank == "Q" ||
@@ -238,7 +254,7 @@ var game = {
     this.$hitButton.on("click", function(e) {
       game.hitPlayer();
       game.addUpDealtCards();
-      game.checkPlayerforAces();
+      // game.checkPlayerforAces(); //taking this out for now
       game.checkPlayerBust();
     });
 
@@ -255,7 +271,7 @@ var game = {
         alert("dealer hits!");
         game.hitDealer();
         game.addUpDealtCards();
-        game.checkDealerforAces();
+        // game.checkDealerforAces();
         game.checkDealerBust();
 
         if (game.dealerTotal > 0 && game.playerTotal > 0) {
@@ -282,21 +298,45 @@ var game = {
   },
 
   hitPlayer: function() {
+    // in case the deck is getting low, so an undefined value isn't pushed into the player cards array
+
+    if (deck.cards.length < 10) {
+      deck.createDeck();
+      deck.shuffleDeck();
+    }
+
     var hitCard = deck.cards[0];
     this.playerCards.push(hitCard);
     deck.cards.shift();
     this.playerCardsView(hitCard);
   },
 
+  // checkPlayerforAces: function() {
+  //   while (this.playerTotal > 21) {
+  //     for (var d = 0; d < this.playerCards.length; d++) {
+  //       if (this.playerCards[d].rank == "A" && d !== this.playerAceIndex) {
+  //         // if (this.playerTotal > 21) {
+  //           this.playerTotal -= 10;
+  //           this.$playerTotal.text("Player total: " + this.playerTotal.toString());
+  //
+  //           this.playerAceIndex = d;
+  //         // }
+  //       }
+  //     }
+  //   }
+  //
+  //   console.log("After checking for aces, player total is now", this.playerTotal);
+  // },
+
+  //trying again, without the ace index. shouldn't need it.
+
   checkPlayerforAces: function() {
     while (this.playerTotal > 21) {
       for (var d = 0; d < this.playerCards.length; d++) {
-        if (this.playerCards[d].rank == "A" && d !== this.playerAceIndex) {
+        if (this.playerCards[d].rank == "A") {
           // if (this.playerTotal > 21) {
             this.playerTotal -= 10;
             this.$playerTotal.text("Player total: " + this.playerTotal.toString());
-
-            this.playerAceIndex = d;
           // }
         }
       }
@@ -321,7 +361,11 @@ var game = {
   },
 
   hitDealer: function() {
-    console.log("testing hitDealer function");
+    if (deck.cards.length < 10) {
+      deck.createDeck();
+      deck.shuffleDeck();
+    }
+
     var dealerHitCard = deck.cards[0];
     this.dealerCards.push(dealerHitCard);
     deck.cards.shift();
@@ -355,15 +399,31 @@ var game = {
     }
   },
 
+  // checkDealerforAces: function() {
+  //   while (this.dealerTotal > 21) {
+  //     for (var e = 0; e < this.dealerCards.length; e++) {
+  //       if (this.dealerCards[e].rank == "A" && e !== this.dealerAceIndex) {
+  //         // if (this.dealerTotal > 21) {
+  //           this.dealerTotal -= 10;
+  //           this.$dealerTotal.text("Dealer total: " + this.dealerTotal.toString());
+  //
+  //           this.dealerAceIndex = e;
+  //         // }
+  //       }
+  //     }
+  //   }
+  //
+  //   console.log("After checking for aces, dealer total is now", this.dealerTotal);
+  // },
+
+  //trying again without ace index, shouldn't need it
   checkDealerforAces: function() {
     while (this.dealerTotal > 21) {
       for (var e = 0; e < this.dealerCards.length; e++) {
-        if (this.dealerCards[e].rank == "A" && e !== this.dealerAceIndex) {
+        if (this.dealerCards[e].rank == "A") {
           // if (this.dealerTotal > 21) {
             this.dealerTotal -= 10;
             this.$dealerTotal.text("Dealer total: " + this.dealerTotal.toString());
-
-            this.dealerAceIndex = e;
           // }
         }
       }
