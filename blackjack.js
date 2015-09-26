@@ -113,13 +113,16 @@ var game = {
     if ($('#player-bet').val() > bankRoll.totalCash) {
       alert("You don't have enough cash. Your bet has been set to your remaining amount of cash.");
       game.bet = bankRoll.totalCash;
-    } else if ($('#player-bet').val() < 1) {
-      alert("Come on buddy, you have to bet at least $1");
-      game.bet = 1;
+    } else if (bankRoll.totalCash < 5) {
+        alert("Wow, you're not doing so well. Minimum bet is $5, but we'll let you play with what you've got.");
+        game.bet = bankRoll.totalCash;
+    } else if ($('#player-bet').val() < 0) {
+        alert("You cannot input a negative bet.");
+        game.bet = 5;
     } else if ($('#player-bet').val() == "") {
-      game.bet = 5;
+        game.bet = 5;
     } else {
-      game.bet = $('#player-bet').val();
+        game.bet = $('#player-bet').val();
     }
     console.log("Bet is: ", game.bet);
   },
@@ -538,7 +541,7 @@ var game = {
           // $('.game-over-image').css("top", "0");
           $('body').append(this.$gameOver);
           $('body').append(this.$resetButton);
-  
+
           // $('.game-over-image').css("top", "0");
           // $('body').append((this.$gameOver).css("top", "0px"));
 
