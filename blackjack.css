@@ -81,12 +81,17 @@ main {
   width: 80%;
   margin: 0 auto;
   overflow: auto;
+
+  background-image: url("images/background-gif.gif");
+  background-repeat: no-repeat;
+  background-size: contain;
+  /*background: black; */
+  color: white;
 }
 
 main > section {
   float: left;
-  background: black;
-  color: white;
+
   width: 50%;
   min-height: 400px;
   padding: 3rem 0.5rem;
@@ -139,17 +144,17 @@ main {
 */
 
 /* for mario background */
-.dealer-cards .card-in-play:first-of-type {
-  max-width:100%;
-  max-height:100%;
+/*.dealer-cards .card-in-play:first-of-type {
+  max-width: 84px;
+  max-height: 126px;
 
-  background: url(images/mario-cards-back.png);
-  background-size: contain;
+  top: 1px;
+
+  background: url(images/mario-cards-back-no-bg.png);
   background-repeat: no-repeat;
-  /*overflow: hidden;*/
 
   background-position: 0px 0px !important;
-}
+}*/
 
 footer {
   padding: 1rem;

@@ -51,10 +51,10 @@ var bankRoll = {
   playerName: "",
 
   initializeBankRoll: function() {
-    // this.playerName = prompt("What's your name?");
+    this.playerName = prompt("What's your name?");
     $('.player-name').text("Player name: " + this.playerName);
 
-    // this.totalCash = Number(prompt("How much money do you have?"));
+    this.totalCash = Number(prompt("How much money do you have?"));
 
     if (this.totalCash == "") {
       this.totalCash = 100;
@@ -90,7 +90,7 @@ var game = {
     deck.shuffleDeck();
     bankRoll.initializeBankRoll();
 
-    // alert("Enter your bet before cards are dealt, otherwise your bet will be $5!");
+    alert("Enter your bet before cards are dealt, otherwise your bet will be $5!");
   },
 
   setListeners: function() {
@@ -190,7 +190,7 @@ var game = {
     }
 
     this.$dealerTotal.text("Dealer total: ", this.dealerTotal);
-    this.$playerTotal.text("Player total: ", this.playerTotal); 
+    this.$playerTotal.text("Player total: ", this.playerTotal);
 
     // this.checkPlayerforAces();
     // this.checkPlayerBust();
@@ -238,8 +238,8 @@ var game = {
     });
 
     this.$standButton.on("click", function(e) {
-      //reveal dealer's first card
-      game.revealDealerFirstCard(game.dealerCards[0]);
+      //reveal dealer's first card -- commented out until i get it working
+      // game.revealDealerFirstCard(game.dealerCards[0]);
 
       //playerTotal is now set. have to compare.
       game.compareHands();
