@@ -73,10 +73,10 @@ var game = {
   dealerCards: [],
   playerCards: [],
   bet: 5,
-  playerAceIndex: null,
-  dealerAceIndex: null,
-  playerHasAce: false,
-  dealerHasAce: false,
+  // playerAceIndex: null,
+  // dealerAceIndex: null,
+  // playerHasAce: false,
+  // dealerHasAce: false,
   $dealerCardsSection: $('.dealer-cards'),
   $playerCardsSection: $('.player-cards'),
   dealerTotal: 0,
@@ -111,6 +111,9 @@ var game = {
     if ($('#player-bet').val() > bankRoll.totalCash) {
       alert("You don't have enough cash. Your bet has been set to your remaining amount of cash.");
       game.bet = bankRoll.totalCash;
+    } else if ($('#player-bet').val() < 5) {
+      alert("Come on buddy, you have to bet at least $5");
+      game.bet = 5;
     } else if ($('#player-bet').val() == "") {
       game.bet = 5;
     } else {
@@ -465,6 +468,21 @@ var game = {
 
     //turn the deal button listener back on so we can play again!
     this.setListeners();
+
+    //check to see if player is penniless
+    if (bankRoll.totalCash <= 0) {
+      alert("Oh no!! You're penniless!!");
+
+      //and here is where we'll have to trigger the random events
+      //1 in 3 odds for real game, but leaving that off for testing.
+      
+      var familyMembers = ["grandmother", "grandfather", "great-uncle", ]
+
+      else {
+        alert("Press refresh to try your luck again.");
+        //or show game over screen.
+      }
+    }
   },
 
   removeCardsView: function() {
