@@ -86,6 +86,7 @@ var game = {
   $deal: $('#deal-button'),
   $hitButton: $('<button class="hit-button">HIT</button>'), //haha shit button
   $standButton: $('<button class="stand-button">STAND</button>'),
+  $gameOver: $('<img class="game-over-image" src="images/game-over.png"'),
 
   initializeGame: function () {
     this.setListeners();
@@ -491,7 +492,7 @@ var game = {
       //1 in 3 odds for real game, but leaving that off for testing.
       // var oneInThree = Math.floor(Math.random() * 3) + 1;
 
-      var oneInThree = 3;
+      var oneInThree = 2;
 
       if (oneInThree = 3){
         var familyMembers = [
@@ -524,10 +525,10 @@ var game = {
         alert("I'm sorry to be the bearer of bad news, but your " + familyMembers[randomIndex] + " has passed away. But! they've left you the handsome sum of $" + randomSums[randomIndex].toString() + ". Aren't you lucky? Don't grieve--spend your money here!");
 
         bankRoll.totalCash = randomSums[randomIndex];
-        bankRoll.updateBankRollView(); 
+        bankRoll.updateBankRollView();
       } else {
+          $('body').append($gameOver);
           alert("Press refresh to try your luck again.");
-          //and show game over screen.
       }
     }
   }
