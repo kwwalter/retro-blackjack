@@ -62,6 +62,8 @@ var bankRoll = {
     } else {
       $('.total-cash').html("Total cash: $" + this.totalCash.toString());
     }
+
+    alert("Enter your bet before cards are dealt, otherwise your bet will be $5!"); 
   },
 
   updateBankRollView: function() {
@@ -94,9 +96,9 @@ var game = {
 
     deck.createDeck();
     deck.shuffleDeck();
-    bankRoll.initializeBankRoll();
-
-    alert("Enter your bet before cards are dealt, otherwise your bet will be $5!");
+    setTimeout(function() {
+      bankRoll.initializeBankRoll();
+    }, 500);
   },
 
   setListeners: function() {
