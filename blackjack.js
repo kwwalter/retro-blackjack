@@ -265,12 +265,12 @@ var game = {
       //hit dealer if total < 17, and while player still has cards (so that this doesn't happen even after dealer wins or busts)
       while (game.dealerTotal < 17 && game.playerTotal > 0) {
         //check to see if dealer wins
-        alert("dealer hits!");
+        // alert("dealer hits!");
 
         $('main').append(this.$dealerHitsAlert);
         setTimeout(function() {
           game.$dealerHitsAlert.remove();
-        }, 2000);
+        }, 2500);
 
         game.hitDealer();
         game.addUpDealtCards();
@@ -348,13 +348,15 @@ var game = {
       $('main').append(this.$playerBustAlert);
       setTimeout(function() {
         game.$playerBustAlert.remove();
-      }, 2500); //change all from 5000 to 2500 later
+      }, 2500);
 
       bankRoll.totalCash -= this.bet;
       bankRoll.updateBankRollView();
       this.$hitButton.off();
 
-      this.removeCardsAndDealAgain();
+      setTimeout(function() {
+        game.removeCardsAndDealAgain();
+      }, 2500);
     } else {
       return;
     }
@@ -379,69 +381,102 @@ var game = {
     if (this.dealerTotal === 21 && this.dealerCards.length === 2 && this.dealerBlackjack == false) {
         this.dealerBlackjack = true; //so this won't happen more than once.
 
-        alert("Blackjack for dealer!");
+        // alert("Blackjack for dealer!");
         // show dealer Blackjack alert
         this.dealerBlackjackAlert();
     } else if (this.playerTotal === 21 && this.playerCards.length === 2 && this.playerBlackjack == false) {
         this.playerBlackjack = true;
 
-        alert("Blackjack for you! Bravo!");
+        // alert("Blackjack for you! Bravo!");
         // show player Blackjack alert
         this.playerBlackjackAlert();
     }
 
     //now just compare the cards
     if (this.dealerTotal > this.playerTotal) {
-      alert("Dealer's hand beats the player's--house wins!");
+      // alert("Dealer's hand beats the player's--house wins!");
       $('main').append(this.$dealerWinsAlert);
+
       setTimeout(function() {
         game.$dealerWinsAlert.remove();
-      }, 5000);
+      }, 2500);
 
       bankRoll.totalCash -= this.bet;
       bankRoll.updateBankRollView();
 
-      this.removeCardsAndDealAgain();
-
-    } else if (this.dealerTotal == this.playerTotal) {
-      alert("the result is a draw--no one wins! Your bet has been returned to you.");
-      $('main').append(this.$drawAlert);
       setTimeout(function() {
-        game.$drawAlert.remove();
-      }, 5000);
+        game.removeCardsAndDealAgain();
+      }, 2500);
+    } else if (this.dealerTotal == this.playerTotal) {
+      // have to set rule for when both player and dealer have 21, but one of them is a blackjack...
+        if (this.dealerBlackjack == true && this.playerBlackjack == false) {
+            // alert("Dealer's hand beats the player's--house wins!");
+            $('main').append(this.$dealerWinsAlert);
+            setTimeout(function() {
+              game.$dealerWinsAlert.remove();
+            }, 2500);
 
-      this.removeCardsAndDealAgain();
+            bankRoll.totalCash -= this.bet;
+            bankRoll.updateBankRollView();
+
+            setTimeout(function() {
+              game.removeCardsAndDealAgain();
+            }, 2500);
+        } else if (this.dealerBlackjack == false && this.playerBlackjack == true) {
+            // alert("Player wins! Congrats!");
+            $('main').append(this.$playerWinsAlert);
+            setTimeout(function() {
+              game.$playerWinsAlert.remove();
+            }, 2500);
+
+            bankRoll.totalCash += (this.bet * 1.5);
+            bankRoll.updateBankRollView();
+
+            setTimeout(function() {
+              game.removeCardsAndDealAgain();
+            }, 2500);
+        } else {
+            // alert("the result is a draw--no one wins! Your bet has been returned to you.");
+            $('main').append(this.$drawAlert);
+            setTimeout(function() {
+              game.$drawAlert.remove();
+            }, 2500);
+
+            setTimeout(function() {
+              game.removeCardsAndDealAgain();
+            }, 2500);
+        }
     }
 
     else if (this.dealerTotal >= 17 && (this.dealerTotal < this.playerTotal)) {
-      alert("Player wins! Congrats!");
+      // alert("Player wins! Congrats!");
       $('main').append(this.$playerWinsAlert);
       setTimeout(function() {
         game.$playerWinsAlert.remove();
-      }, 5000);
+      }, 2500);
 
       bankRoll.totalCash += (this.bet * 1.5);
       bankRoll.updateBankRollView();
 
-      this.removeCardsAndDealAgain();
+      setTimeout(function() {
+        game.removeCardsAndDealAgain();
+      }, 2500);
     }
   },
 
   dealerBlackjackAlert: function() {
-    //creating div that will animate across the screen;
     $('main').append(this.$dealerBJAlert);
     setTimeout(function() {
       game.$dealerBJAlert.remove();
-    }, 5000);
+    }, 2500);
     // this.$dealerBJAlert.remove();
   },
 
   playerBlackjackAlert: function() {
-    //creating div that will animate across the screen;
     $('main').append(this.$playerBJAlert);
     setTimeout(function() {
       game.$playerBJAlert.remove();
-    }, 5000);
+    }, 2500);
     // this.$playerBJAlert.remove();
   },
 
@@ -481,16 +516,18 @@ var game = {
   checkDealerBust: function() {
     //then, if the total is still above 21, the player loses.
     if (this.dealerTotal > 21) {
-      alert("Dealer busts! You win by default--hooray!");
+      // alert("Dealer busts! You win by default--hooray!");
       $('main').append(this.$dealerBustAlert);
       setTimeout(function() {
         game.$dealerBustAlert.remove();
-      }, 5000);
+      }, 2500);
 
       bankRoll.totalCash += (this.bet * 1.5);
       bankRoll.updateBankRollView();
 
-      this.removeCardsAndDealAgain();
+      setTimeout(function() {
+        game.removeCardsAndDealAgain();
+      }, 2500);
     }
     //   else {
     //   return;
@@ -537,11 +574,11 @@ var game = {
 
   isPlayerBroke: function() {
     if (bankRoll.totalCash <= 0) {
-      alert("Oh no!! You're penniless!!");
+      // alert("Oh no!! You're penniless!!");
       $('main').append(this.$pennilessAlert);
       setTimeout(function() {
         game.$pennilessAlert.remove();
-      }, 5000);
+      }, 2500);
 
       //and here is where we'll have to trigger the random events
       //1 in 3 odds for real game, but leaving that off for testing.

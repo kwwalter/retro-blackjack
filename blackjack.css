@@ -285,3 +285,47 @@ footer img {
     }
   }
 }
+
+@media (max-width: 650px) {
+  .intro-head {
+    font-size: 1.5rem;
+  }
+
+  main > section, header {
+    font-size: .75rem;
+  }
+
+  main > section {
+    height: 700px;
+  }
+
+  section h2, .bet-stuff {
+    font-size: .75rem;
+  }
+
+  section h2 {
+    border: 5px double white;
+  }
+
+  .bj-alert, .reset-button {
+    font-size: 1.5rem;
+  }
+
+  .reset-button {
+    padding: 1.5rem;
+  }
+
+  #player-bet, button {
+    font-size: .5rem;
+  }
+
+  #player-bet {
+    width: 8.5rem;
+  }
+
+  @keyframes game-alert {
+    100% {
+       transform: translate(0px, -550px);
+    }
+  }
+}
