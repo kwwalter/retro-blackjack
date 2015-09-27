@@ -95,6 +95,7 @@ main {
 
   border-radius: 25px;
   border: 20px ridge #9FE5FA;
+  box-shadow: 2px 2px 3px black;
 }
 
 main > section {
@@ -135,16 +136,6 @@ button {
 
   padding: 1rem;
   padding-top: 1rem;
-}
-
-.dealer-face {
-  /*height: 50px;
-  width: 30px;*/
-
-}
-
-main {
-  box-shadow: 2px 2px 3px black;
 }
 
 .play-buttons {

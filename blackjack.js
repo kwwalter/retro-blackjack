@@ -356,13 +356,13 @@ var game = {
 
         // alert("Blackjack for dealer!");
         // show dealer Blackjack alert
-        this.dealerBJAlert();
+        this.dealerBlackjackAlert();
     } else if (this.playerTotal === 21 && this.playerCards.length === 2 && this.playerBlackjack == false) {
         this.playerBlackjack = true;
 
         // alert("Blackjack for you! Bravo!");
         // show player Blackjack alert
-        this.playerBJAlert();
+        this.playerBlackjackAlert();
     }
 
     //now just compare the cards
@@ -387,6 +387,18 @@ var game = {
 
       this.removeCardsAndDealAgain();
     }
+  },
+
+  dealerBlackjackAlert: function() {
+    //creating div that will animate across the screen;
+    var $dealerBJAlert = $('<div class="bj-alert">BLACKJACK FOR DEALER</div>');
+    $('main').append($dealerBJAlert);
+  },
+
+  playerBlackjackAlert: function() {
+    //creating div that will animate across the screen;
+    var $playerBJAlert = $('<div class="bj-alert">BLACKJACK FOR PLAYER</div>');
+    $('main').append($playerBJAlert);
   },
 
   // checkDealerforAces: function() {
