@@ -77,6 +77,7 @@ var game = {
   bet: 5,
   playerBlackjack: false,
   dealerBlackjack: false,
+  standPressed: false,
 
   //in-game alerts
   $dealerHitsAlert: $('<div class="bj-alert">DEALER HITS!</div>'),
@@ -236,7 +237,12 @@ var game = {
       }
     }
 
-    this.$dealerTotal.text("Dealer total: " + this.dealerTotal.toString());
+    if (this.standPressed) {
+      this.$dealerTotal.text("Dealer total: " + this.dealerTotal.toString());
+    } else {
+      this.$dealerTotal.text("Dealer total: ??");
+    }
+
     this.$playerTotal.text("Player total: " + this.playerTotal.toString());
   },
 
@@ -256,6 +262,9 @@ var game = {
     });
 
     this.$standButton.on("click", function(e) {
+      //can now display the dealer's total score
+      game.standPressed = true;
+
       // reveal dealer's first card -- commented out until i get it working
       game.revealDealerFirstCard(game.dealerCards[0]);
 
@@ -265,8 +274,9 @@ var game = {
       //hit dealer if total < 17, and while player still has cards (so that this doesn't happen even after dealer wins or busts)
       while (game.dealerTotal < 17 && game.playerTotal > 0) {
         //check to see if dealer wins
-        // alert("dealer hits!");
+        alert("The dealer hits!");
 
+        //is this even popping up?
         $('main').append(this.$dealerHitsAlert);
         setTimeout(function() {
           game.$dealerHitsAlert.remove();
@@ -344,7 +354,7 @@ var game = {
     //then, if the total is still above 21, the player loses.
 
     if (this.playerTotal > 21) {
-      // alert("Player busts! Sorry, you lose.");
+      alert("I think you went a little too far there, " + bankRoll.playerName);
       $('main').append(this.$playerBustAlert);
       setTimeout(function() {
         game.$playerBustAlert.remove();
@@ -354,9 +364,7 @@ var game = {
       bankRoll.updateBankRollView();
       this.$hitButton.off();
 
-      setTimeout(function() {
-        game.removeCardsAndDealAgain();
-      }, 2500);
+      this.removeCardsAndDealAgain();
     } else {
       return;
     }
@@ -381,20 +389,20 @@ var game = {
     if (this.dealerTotal === 21 && this.dealerCards.length === 2 && this.dealerBlackjack == false) {
         this.dealerBlackjack = true; //so this won't happen more than once.
 
-        // alert("Blackjack for dealer!");
+        alert("Blackjack for our magnanimous dealer! I swear this isn't rigged..");
         // show dealer Blackjack alert
         this.dealerBlackjackAlert();
     } else if (this.playerTotal === 21 && this.playerCards.length === 2 && this.playerBlackjack == false) {
         this.playerBlackjack = true;
 
-        // alert("Blackjack for you! Bravo!");
+        alert("Blackjack for you! Bravo!");
         // show player Blackjack alert
         this.playerBlackjackAlert();
     }
 
     //now just compare the cards
     if (this.dealerTotal > this.playerTotal) {
-      // alert("Dealer's hand beats the player's--house wins!");
+      alert("Dealer's hand beats the player's--house wins again!");
       $('main').append(this.$dealerWinsAlert);
 
       setTimeout(function() {
@@ -404,13 +412,11 @@ var game = {
       bankRoll.totalCash -= this.bet;
       bankRoll.updateBankRollView();
 
-      setTimeout(function() {
-        game.removeCardsAndDealAgain();
-      }, 2500);
+      this.removeCardsAndDealAgain();
     } else if (this.dealerTotal == this.playerTotal) {
       // have to set rule for when both player and dealer have 21, but one of them is a blackjack...
         if (this.dealerBlackjack == true && this.playerBlackjack == false) {
-            // alert("Dealer's hand beats the player's--house wins!");
+            alert("Dealer's hand beats the player's--house wins again!");
             $('main').append(this.$dealerWinsAlert);
             setTimeout(function() {
               game.$dealerWinsAlert.remove();
@@ -419,11 +425,9 @@ var game = {
             bankRoll.totalCash -= this.bet;
             bankRoll.updateBankRollView();
 
-            setTimeout(function() {
-              game.removeCardsAndDealAgain();
-            }, 2500);
+            this.removeCardsAndDealAgain();
         } else if (this.dealerBlackjack == false && this.playerBlackjack == true) {
-            // alert("Player wins! Congrats!");
+            alert("Look at you, " + bankRoll.playerName + "! Congrats!");
             $('main').append(this.$playerWinsAlert);
             setTimeout(function() {
               game.$playerWinsAlert.remove();
@@ -432,24 +436,20 @@ var game = {
             bankRoll.totalCash += (this.bet * 1.5);
             bankRoll.updateBankRollView();
 
-            setTimeout(function() {
-              game.removeCardsAndDealAgain();
-            }, 2500);
+            this.removeCardsAndDealAgain();
         } else {
-            // alert("the result is a draw--no one wins! Your bet has been returned to you.");
+            alert("Ah, a tie. Your bet has been returned to you.");
             $('main').append(this.$drawAlert);
             setTimeout(function() {
               game.$drawAlert.remove();
             }, 2500);
 
-            setTimeout(function() {
-              game.removeCardsAndDealAgain();
-            }, 2500);
+            this.removeCardsAndDealAgain();
         }
     }
 
     else if (this.dealerTotal >= 17 && (this.dealerTotal < this.playerTotal)) {
-      // alert("Player wins! Congrats!");
+      alert("You did it, " + bankRoll.playerName + "! Congrats!");
       $('main').append(this.$playerWinsAlert);
       setTimeout(function() {
         game.$playerWinsAlert.remove();
@@ -458,9 +458,7 @@ var game = {
       bankRoll.totalCash += (this.bet * 1.5);
       bankRoll.updateBankRollView();
 
-      setTimeout(function() {
-        game.removeCardsAndDealAgain();
-      }, 2500);
+      this.removeCardsAndDealAgain();
     }
   },
 
@@ -516,7 +514,7 @@ var game = {
   checkDealerBust: function() {
     //then, if the total is still above 21, the player loses.
     if (this.dealerTotal > 21) {
-      // alert("Dealer busts! You win by default--hooray!");
+      alert("The dealer busts! You win by default--hooray!");
       $('main').append(this.$dealerBustAlert);
       setTimeout(function() {
         game.$dealerBustAlert.remove();
@@ -525,9 +523,7 @@ var game = {
       bankRoll.totalCash += (this.bet * 1.5);
       bankRoll.updateBankRollView();
 
-      setTimeout(function() {
-        game.removeCardsAndDealAgain();
-      }, 2500);
+      this.removeCardsAndDealAgain();
     }
     //   else {
     //   return;
