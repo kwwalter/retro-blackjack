@@ -41,7 +41,7 @@ body {
 }
 
 .intro-head {
-  font-size: 2rem;
+  font-size: 3rem;
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 
   text-align: center;
@@ -188,11 +188,6 @@ footer img {
   border-radius: 25px;
 }
 
-.game-over {
-  margin: 0 auto;
-  height: 100%;
-}
-
 .game-over-image {
   /*position: absolute;*/
   width: 80%;
@@ -202,7 +197,7 @@ footer img {
 
   display: block;
 
-  animation: roll-credits 45s ease 1;
+  animation: roll-credits 60s ease 1;
 }
 
 @keyframes roll-credits {
@@ -219,5 +214,5 @@ footer img {
   padding: 4rem;
   font-size: 3rem;
 
-  animation: roll-credits 45s ease 1;
+  animation: roll-credits 60s ease 1;
 }

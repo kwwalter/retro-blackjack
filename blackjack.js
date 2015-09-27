@@ -87,11 +87,14 @@ var game = {
   $playerTotal: $('.player-total'),
   $deal: $('#deal-button'),
   $hitButton: $('<button class="hit-button">HIT</button>'), //haha shit button
-  $standButton: $('<button class="stand-button">STAND</button>'),
+  $standButton: $('<button class="stand-button">STAND</button></br>'),
   $gameOver: $('<img class="game-over-image" src="images/game-over.png">'),
   $resetButton: $('<button class="reset-button">RESET</button>'),
 
   initializeGame: function () {
+    //cue the music..
+    $('embed').html('height="0" width="0" src="http://www.youtube.com/embed/yaWkjUKSyLA?autoplay=1&loop=1');
+
     this.setListeners();
 
     deck.createDeck();
@@ -118,11 +121,14 @@ var game = {
     } else if (bankRoll.totalCash < 5) {
         alert("Wow, you're not doing so well. Minimum bet is $5, but we'll let you play with what you've got.");
         game.bet = bankRoll.totalCash;
+        $('#player-bet').val(bankRoll.totalCash);
     } else if ($('#player-bet').val() < 0) {
         alert("You cannot input a negative bet.");
         game.bet = 5;
+        $('#player-bet').val("5");
     } else if ($('#player-bet').val() == "") {
         game.bet = 5;
+        $('#player-bet').val("5");
     } else {
         game.bet = $('#player-bet').val();
     }
@@ -494,7 +500,7 @@ var game = {
       //1 in 3 odds for real game, but leaving that off for testing.
       // var oneInThree = Math.floor(Math.random() * 3) + 1;
 
-      var oneInThree = 2;
+      var oneInThree = 3;
 
       if (oneInThree === 3) {
         var familyMembers = [
@@ -531,17 +537,16 @@ var game = {
 
       } else {
           //game over!
+          $('embed').html('height="0" width="0" src="http://www.youtube.com/embed/LE9vGD6JvzA?autoplay=1&loop=1');
 
           $('main').append(this.$gameOver);
           $('main').append(this.$resetButton);
-          // $('.game-over-image').css("top", "32%");
-
-          // $('.game-over-image').css("top", "0");
-          // $('body').append((this.$gameOver).css("top", "0px"));
 
           alert("Press reset to try your luck again.");
 
           this.$resetButton.on("click", function(e) {
+            game.$gameOver.remove();
+            game.$resetButton.remove();
             game.initializeGame();
           });
       }
