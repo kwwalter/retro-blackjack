@@ -63,7 +63,7 @@ var bankRoll = {
       $('.total-cash').html("Total cash: $" + this.totalCash.toString());
     }
 
-    alert("Enter your bet before cards are dealt, otherwise your bet will be $5!"); 
+    alert("Enter your bet before cards are dealt, otherwise your bet will be $5!");
   },
 
   updateBankRollView: function() {
@@ -531,18 +531,10 @@ var game = {
 
       } else {
           //game over!
-          //maybe shouldn't remove everything, because now I will have to recreate it all upon reset..
 
-          $('.body').css("background", "black");
-          // $('.intro-head').remove();
-          // $('.intro-image').remove();
-          // $('header').remove();
-          // $('main').remove();
-          // $('footer').remove();
-
-          // $('.game-over-image').css("top", "0");
           $('body').append(this.$gameOver);
           $('body').append(this.$resetButton);
+          // $('.game-over-image').css("top", "32%");
 
           // $('.game-over-image').css("top", "0");
           // $('body').append((this.$gameOver).css("top", "0px"));
