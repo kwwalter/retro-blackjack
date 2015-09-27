@@ -125,6 +125,7 @@ var game = {
     if ($('#player-bet').val() > bankRoll.totalCash) {
       alert("You don't have enough cash. Your bet has been set to your remaining amount of cash.");
       game.bet = bankRoll.totalCash;
+      $('#player-bet').val(bankRoll.totalCash);
     } else if (bankRoll.totalCash < 5) {
         alert("Wow, you're not doing so well. Minimum bet is $5, but we'll let you play with what you've got.");
         game.bet = bankRoll.totalCash;

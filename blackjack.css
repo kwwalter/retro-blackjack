@@ -102,21 +102,25 @@ main > section {
   float: left;
 
   width: 50%;
-  min-height: 400px;
+  height: 400px;
   padding: 3rem 0.5rem;
 }
 
 section h2 {
-  padding: 1rem 0;
+  padding: 1rem .5rem;
+  border: 10px double white;
 }
 
 .bet-stuff {
   font-size: 1.3rem;
+  padding: .5rem 0;
 }
 
 #player-bet {
   height: 1.5rem;
   width: 10rem;
+  box-shadow: 2px 2px 3px white;
+
   text-align: center;
   vertical-align: text-bottom;
 
@@ -199,7 +203,7 @@ button {
 
 @keyframes game-alert {
   100% {
-     transform: translate(0px, -350px);
+     transform: translate(0px, -250px);
   }
 }
 
@@ -222,7 +226,7 @@ footer img {
 
   display: block;
 
-  animation: roll-credits 60s ease 1;
+  animation: roll-credits 30s ease 1;
 }
 
 @keyframes roll-credits {
@@ -239,5 +243,45 @@ footer img {
   padding: 4rem;
   font-size: 3rem;
 
-  animation: roll-credits 60s ease 1;
+  animation: roll-credits 30s ease 1;
+}
+
+@media (max-width: 925px) {
+  .intro-head {
+    font-size: 2rem;
+  }
+
+  header, main > section {
+    font-size: 1rem;
+  }
+
+  main > section {
+    height: 600px;
+  }
+
+  section h2, .bet-stuff {
+    font-size: 1rem;
+  }
+
+  section h2 {
+    border: 7.5px double white;
+  }
+
+  .bj-alert, .reset-button {
+    font-size: 2rem;
+  }
+
+  .reset-button {
+    padding: 2rem;
+  }
+
+  #player-bet, button {
+    font-size: .75rem;
+  }
+
+  @keyframes game-alert {
+    100% {
+       transform: translate(0px, -450px);
+    }
+  }
 }
