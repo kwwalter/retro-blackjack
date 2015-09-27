@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="blackjack.css">
   </head>
   <!-- Playing some YouTube music in the background! Results in errors though..-->
-  <embed height="0" width="0"
-   src="http://www.youtube.com/embed/yaWkjUKSyLA?autoplay=1&loop=1" />
   <!-- <div id="intro-modal" class="modal" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -24,9 +22,11 @@
           <button type="button" class="modal-button" data-dismiss="modal">Let's Play!</button>
         </div>
       </div>
-    </div> -->
-  </div>
+    </div>
+  </div> -->
   <body>
+    <embed class="bgm" height="0" width="0"
+     src="http://www.youtube.com/embed/yaWkjUKSyLA?autoplay=1&loop=1&playlist=yaWkjUKSyLA" />
     <h1 class="intro-head">WELCOME TO THE MODERN CASINO!!</h1>
     <!-- <span> -->
     <img class="intro-image" src="images/dealerFace.png">
@@ -46,7 +46,7 @@
       </section>
       <section>
         <h2 class="player-total">Player total: </h2>
-        <div>
+        <div class="bet-stuff">
           <label for="name">Your Bet</label>
           <input type="number" name="player-bet" id="player-bet">
         </div>

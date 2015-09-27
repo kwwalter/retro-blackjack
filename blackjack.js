@@ -92,9 +92,6 @@ var game = {
   $resetButton: $('<button class="reset-button">RESET</button>'),
 
   initializeGame: function () {
-    //cue the music..
-    $('embed').html('height="0" width="0" src="http://www.youtube.com/embed/yaWkjUKSyLA?autoplay=1&loop=1');
-
     this.setListeners();
 
     deck.createDeck();
@@ -102,6 +99,7 @@ var game = {
     setTimeout(function() {
       bankRoll.initializeBankRoll();
     }, 500);
+    // $('body').append('<embed height="0" width="0" src="http://www.youtube.com/embed/yaWkjUKSyLA?autoplay=1&loop=1" />';
   },
 
   setListeners: function() {
@@ -500,7 +498,7 @@ var game = {
       //1 in 3 odds for real game, but leaving that off for testing.
       // var oneInThree = Math.floor(Math.random() * 3) + 1;
 
-      var oneInThree = 3;
+      var oneInThree = 2;
 
       if (oneInThree === 3) {
         var familyMembers = [
@@ -513,7 +511,9 @@ var game = {
           "spouse",
           "local barista",
           "estranged brother",
-          "separated-at-birth twin"
+          "separated-at-birth twin",
+          "roommate",
+          ""
         ];
         var randomSums = [
           100,
@@ -525,10 +525,11 @@ var game = {
           725,
           1,
           50,
-          1000000000
+          1000000000,
+          57
         ];
 
-        var randomIndex = Math.floor(Math.random() * 10) + 1;
+        var randomIndex = Math.floor(Math.random() * 11) + 1;
 
         alert("I'm sorry to be the bearer of bad news, but your " + familyMembers[randomIndex] + " has passed away. But! they've left you the handsome sum of $" + randomSums[randomIndex].toString() + ". Aren't you lucky? Don't grieve--spend your money here!");
 
@@ -537,7 +538,9 @@ var game = {
 
       } else {
           //game over!
-          $('embed').html('height="0" width="0" src="http://www.youtube.com/embed/LE9vGD6JvzA?autoplay=1&loop=1');
+          //tried adding different game over music, to no avail. 
+          // $('body embed').remove();
+          // $('body').append('<embed height="0" width="0" src="http://www.youtube.com/embed/LE9vGD6JvzA?autoplay=1&loop=1" />';
 
           $('main').append(this.$gameOver);
           $('main').append(this.$resetButton);

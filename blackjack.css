@@ -109,6 +109,20 @@ section h2 {
   padding: 1rem 0;
 }
 
+.bet-stuff {
+  font-size: 1.3rem;
+}
+
+#player-bet {
+  height: 1.5rem;
+  width: 10rem;
+  text-align: center;
+  vertical-align: text-bottom;
+
+  font-size: 1rem;
+  font-family: ArcadeFont, serif;
+}
+
 button {
   background: grey;
   float: left;
