@@ -77,6 +77,8 @@ var game = {
   bet: 5,
   playerBlackjack: false,
   dealerBlackjack: false,
+  $dealerBJAlert: $('<div class="bj-alert">BLACKJACK FOR DEALER!!</div>'),
+  $playerBJAlert: $('<div class="bj-alert">BLACKJACK FOR PLAYER!!</div>'),
   $dealerCardsSection: $('.dealer-cards'),
   $playerCardsSection: $('.player-cards'),
   dealerTotal: 0,
@@ -351,7 +353,8 @@ var game = {
   compareHands: function() {
     //checking to see if either has blackjack..
 
-    if ((this.dealerTotal === 21 && this.dealerCards.length === 2) && this.playerTotal < 21 && this.dealerBlackjack == false) {
+    //had this in the original conditional, too, but most likely not needed: && this.playerTotal < 21 
+    if (this.dealerTotal === 21 && this.dealerCards.length === 2 && this.dealerBlackjack == false) {
         this.dealerBlackjack = true; //so this won't happen more than once.
 
         // alert("Blackjack for dealer!");
@@ -391,14 +394,20 @@ var game = {
 
   dealerBlackjackAlert: function() {
     //creating div that will animate across the screen;
-    var $dealerBJAlert = $('<div class="bj-alert">BLACKJACK FOR DEALER</div>');
-    $('main').append($dealerBJAlert);
+    $('main').append(this.$dealerBJAlert);
+    // setTimeout(function() {
+    //   game.$dealerBJAlert.remove();
+    // }, 4500);
+    this.$dealerBJAlert.remove();
   },
 
   playerBlackjackAlert: function() {
     //creating div that will animate across the screen;
-    var $playerBJAlert = $('<div class="bj-alert">BLACKJACK FOR PLAYER</div>');
-    $('main').append($playerBJAlert);
+    $('main').append(this.$playerBJAlert);
+    // setTimeout(function() {
+    //   game.$playerBJAlert.remove();
+    // }, 4500);
+    $this.playerBJAlert.remove();
   },
 
   // checkDealerforAces: function() {
