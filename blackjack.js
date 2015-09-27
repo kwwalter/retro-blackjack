@@ -80,7 +80,6 @@ var game = {
   standPressed: false,
 
   //in-game alerts
-  $dealerHitsAlert: $('<div class="bj-alert">DEALER HITS!</div>'),
   $dealerBJAlert: $('<div class="bj-alert">BLACKJACK FOR DEALER!!</div>'),
   $playerBJAlert: $('<div class="bj-alert">BLACKJACK FOR PLAYER!!</div>'),
   $dealerWinsAlert: $('<div class="bj-alert">DEALER WINS!</div>'),
@@ -120,6 +119,18 @@ var game = {
       game.addUpDealtCards();
       game.appendHitStandButtons();
     });
+  },
+
+  resetGame: function () {
+    //this might be causing dealing 4 cards in the first hand after a reset.
+    // this.setListeners();
+
+    deck.createDeck();
+    deck.shuffleDeck();
+    setTimeout(function() {
+      bankRoll.initializeBankRoll();
+    }, 500);
+    // $('body').append('<embed height="0" width="0" src="http://www.youtube.com/embed/yaWkjUKSyLA?autoplay=1&loop=1" />';
   },
 
   submitBet: function() {
@@ -264,6 +275,7 @@ var game = {
     this.$standButton.on("click", function(e) {
       //can now display the dealer's total score
       game.standPressed = true;
+      game.$dealerTotal.text("Dealer total: " + game.dealerTotal.toString());      
 
       // reveal dealer's first card -- commented out until i get it working
       game.revealDealerFirstCard(game.dealerCards[0]);
@@ -275,12 +287,6 @@ var game = {
       while (game.dealerTotal < 17 && game.playerTotal > 0) {
         //check to see if dealer wins
         alert("The dealer hits!");
-
-        //is this even popping up?
-        $('main').append(this.$dealerHitsAlert);
-        setTimeout(function() {
-          game.$dealerHitsAlert.remove();
-        }, 2500);
 
         game.hitDealer();
         game.addUpDealtCards();
@@ -539,6 +545,9 @@ var game = {
     this.playerBlackjack = false;
     this.dealerBlackjack = false;
 
+    //set stand button boolean back to false, too
+    this.standPressed = false;
+
     //remove the cards from the player and dealer cards arrays
     for (var x = this.playerCards.length - 1; x >= 0; x--) {
       this.playerCards.pop();
@@ -632,7 +641,7 @@ var game = {
           this.$resetButton.on("click", function(e) {
             game.$gameOver.remove();
             game.$resetButton.remove();
-            game.initializeGame();
+            game.resetGame();
           });
       }
     }

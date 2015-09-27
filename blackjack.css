@@ -19,18 +19,6 @@
 		src: url('fonts/8-bit Madness.ttf');
 }
 
-/*.modal {
-position: fixed;
-top: 0;
-right: 0;
-bottom: 0;
-left: 0;
-z-index: 2;
-display: block;
-overflow: auto;
-overflow-y: scroll;
-}*/
-
 body {
   /*position: relative;*/
   /*z-index: 1*/
@@ -161,22 +149,9 @@ button {
   background-size: 1300% 400%;
 }
 
-/*for goomba background
-.dealer-cards .card-in-play:first-of-type {
-  max-width:100%;
-  max-height:100%;
-
-  background: url(images/back-card.png);
-  background-size: cover;
-  background-repeat: no-repeat;
-  overflow: hidden;
-
-  background-position: -5px -3px !important;
-
-  border: 1.5px dotted black;
-  border-radius: 15px;
+.dealer-cards div {
+  margin-top: 1rem;
 }
-*/
 
 /* for mario background */
 .dealer-cards .card-in-play:first-of-type {
@@ -203,7 +178,7 @@ button {
 
 @keyframes game-alert {
   100% {
-     transform: translate(0px, -250px);
+     transform: translate(0px, -225px);
   }
 }
 
@@ -268,7 +243,7 @@ footer img {
   }
 
   .bj-alert, .reset-button {
-    font-size: 2rem;
+    font-size: 2.5rem;
   }
 
   .reset-button {
