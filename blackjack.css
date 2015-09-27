@@ -32,7 +32,7 @@ overflow-y: scroll;
 }*/
 
 body {
-  position: relative;
+  /*position: relative;*/
   /*z-index: 1*/
   background: green;
   /*filter: blur(20px);*/
@@ -68,6 +68,9 @@ header {
   margin: 0 auto;
 
   overflow: auto;
+
+  border-radius: 25px;
+  border: 2.5px ridge grey; 
 }
 
 .player-name {
@@ -88,6 +91,8 @@ main {
   background-size: cover;
   /*background: black; */
   color: white;
+
+  border-radius: 25px;
 }
 
 main > section {
@@ -153,10 +158,12 @@ main {
   background-repeat: no-repeat;
 }
 
-footer {
+footer img {
   padding: 1rem;
-  text-align: center;
-  width: 75%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 75%;
 }
 
 .game-over {
@@ -173,17 +180,16 @@ footer {
 
   display: block;
 
-  /*top: 132%;
-  left: 50%;
-  margin-top: -50%;
-  margin-left: -50%;*/
+  animation: roll-credits 5s ease 1;
+}
 
-  /*transition: top;
-  transition-delay: 4s;
-  transition-timing-function: linear;*/
+@keyframes roll-credits {
+  100% {
+     transform: translate(0px, -1000px);
+  }
 }
 
 .reset-button {
-  text-align: center; 
-  margin-bottom: 1rem;
+  display: block;
+  margin: 1rem auto;
 }
