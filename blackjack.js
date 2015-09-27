@@ -532,8 +532,8 @@ var game = {
       } else {
           //game over!
 
-          $('body').append(this.$gameOver);
-          $('body').append(this.$resetButton);
+          $('main').append(this.$gameOver);
+          $('main').append(this.$resetButton);
           // $('.game-over-image').css("top", "32%");
 
           // $('.game-over-image').css("top", "0");
