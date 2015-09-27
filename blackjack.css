@@ -185,15 +185,16 @@ button {
 
 .bj-alert {
   width: 100%;
-  height: 4rem;
+  /*height: 4rem;*/
   margin: 0 auto;
+  /*background: black; */
 
-  font-size: 3rem;
-  color: #AB000B; 
+  font-size: 4rem;
+  color: #FF7F50;
   text-align: center;
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 
-  animation: game-alert 2s ease 1;
+  animation: game-alert 4s ease 1;
 }
 
 @keyframes game-alert {

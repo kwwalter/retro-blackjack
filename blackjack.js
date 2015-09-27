@@ -77,8 +77,18 @@ var game = {
   bet: 5,
   playerBlackjack: false,
   dealerBlackjack: false,
+
+  //in-game alerts
+  $dealerHitsAlert: $('<div class="bj-alert">DEALER HITS!</div>'),
   $dealerBJAlert: $('<div class="bj-alert">BLACKJACK FOR DEALER!!</div>'),
   $playerBJAlert: $('<div class="bj-alert">BLACKJACK FOR PLAYER!!</div>'),
+  $dealerWinsAlert: $('<div class="bj-alert">DEALER WINS!</div>'),
+  $playerBustAlert: $('<div class="bj-alert">BUST! YOU LOSE!</div>'),
+  $drawAlert: $('<div class="bj-alert">PUSH!</div>'),
+  $playerWinsAlert: $('<div class="bj-alert">YOU WIN! CONGRATS!</div>'),
+  $dealerBustAlert: $('<div class="bj-alert">DEALER BUSTS! YOU WIN!</div>'),
+  $pennilessAlert: $('<div class="bj-alert">OH NO!! YOU ARE PENNILESS!!</div>'),
+
   $dealerCardsSection: $('.dealer-cards'),
   $playerCardsSection: $('.player-cards'),
   dealerTotal: 0,
@@ -255,6 +265,12 @@ var game = {
       while (game.dealerTotal < 17 && game.playerTotal > 0) {
         //check to see if dealer wins
         alert("dealer hits!");
+
+        $('main').append(this.$dealerHitsAlert);
+        setTimeout(function() {
+          game.$dealerHitsAlert.remove();
+        }, 2000);
+
         game.hitDealer();
         game.addUpDealtCards();
         // game.checkDealerforAces();
@@ -327,7 +343,12 @@ var game = {
     //then, if the total is still above 21, the player loses.
 
     if (this.playerTotal > 21) {
-      alert("Player busts! Sorry, you lose.");
+      // alert("Player busts! Sorry, you lose.");
+      $('main').append(this.$playerBustAlert);
+      setTimeout(function() {
+        game.$playerBustAlert.remove();
+      }, 2500); //change all from 5000 to 2500 later
+
       bankRoll.totalCash -= this.bet;
       bankRoll.updateBankRollView();
       this.$hitButton.off();
@@ -353,17 +374,17 @@ var game = {
   compareHands: function() {
     //checking to see if either has blackjack..
 
-    //had this in the original conditional, too, but most likely not needed: && this.playerTotal < 21 
+    //had this in the original conditional, too, but most likely not needed: && this.playerTotal < 21
     if (this.dealerTotal === 21 && this.dealerCards.length === 2 && this.dealerBlackjack == false) {
         this.dealerBlackjack = true; //so this won't happen more than once.
 
-        // alert("Blackjack for dealer!");
+        alert("Blackjack for dealer!");
         // show dealer Blackjack alert
         this.dealerBlackjackAlert();
     } else if (this.playerTotal === 21 && this.playerCards.length === 2 && this.playerBlackjack == false) {
         this.playerBlackjack = true;
 
-        // alert("Blackjack for you! Bravo!");
+        alert("Blackjack for you! Bravo!");
         // show player Blackjack alert
         this.playerBlackjackAlert();
     }
@@ -371,6 +392,10 @@ var game = {
     //now just compare the cards
     if (this.dealerTotal > this.playerTotal) {
       alert("Dealer's hand beats the player's--house wins!");
+      $('main').append(this.$dealerWinsAlert);
+      setTimeout(function() {
+        game.$dealerWinsAlert.remove();
+      }, 5000);
 
       bankRoll.totalCash -= this.bet;
       bankRoll.updateBankRollView();
@@ -379,12 +404,21 @@ var game = {
 
     } else if (this.dealerTotal == this.playerTotal) {
       alert("the result is a draw--no one wins! Your bet has been returned to you.");
+      $('main').append(this.$drawAlert);
+      setTimeout(function() {
+        game.$drawAlert.remove();
+      }, 5000);
 
       this.removeCardsAndDealAgain();
     }
 
     else if (this.dealerTotal >= 17 && (this.dealerTotal < this.playerTotal)) {
       alert("Player wins! Congrats!");
+      $('main').append(this.$playerWinsAlert);
+      setTimeout(function() {
+        game.$playerWinsAlert.remove();
+      }, 5000);
+
       bankRoll.totalCash += (this.bet * 1.5);
       bankRoll.updateBankRollView();
 
@@ -395,19 +429,19 @@ var game = {
   dealerBlackjackAlert: function() {
     //creating div that will animate across the screen;
     $('main').append(this.$dealerBJAlert);
-    // setTimeout(function() {
-    //   game.$dealerBJAlert.remove();
-    // }, 4500);
-    this.$dealerBJAlert.remove();
+    setTimeout(function() {
+      game.$dealerBJAlert.remove();
+    }, 5000);
+    // this.$dealerBJAlert.remove();
   },
 
   playerBlackjackAlert: function() {
     //creating div that will animate across the screen;
     $('main').append(this.$playerBJAlert);
-    // setTimeout(function() {
-    //   game.$playerBJAlert.remove();
-    // }, 4500);
-    $this.playerBJAlert.remove();
+    setTimeout(function() {
+      game.$playerBJAlert.remove();
+    }, 5000);
+    // this.$playerBJAlert.remove();
   },
 
   // checkDealerforAces: function() {
@@ -447,6 +481,11 @@ var game = {
     //then, if the total is still above 21, the player loses.
     if (this.dealerTotal > 21) {
       alert("Dealer busts! You win by default--hooray!");
+      $('main').append(this.$dealerBustAlert);
+      setTimeout(function() {
+        game.$dealerBustAlert.remove();
+      }, 5000);
+
       bankRoll.totalCash += (this.bet * 1.5);
       bankRoll.updateBankRollView();
 
@@ -461,6 +500,10 @@ var game = {
     //set dealer and player totals to 0, so they don't bust when drawing again.
     this.dealerTotal = 0;
     this.playerTotal = 0;
+
+    //set blackjack boolean values to false again
+    this.playerBlackjack = false;
+    this.dealerBlackjack = false;
 
     //remove the cards from the player and dealer cards arrays
     for (var x = this.playerCards.length - 1; x >= 0; x--) {
@@ -494,6 +537,10 @@ var game = {
   isPlayerBroke: function() {
     if (bankRoll.totalCash <= 0) {
       alert("Oh no!! You're penniless!!");
+      $('main').append(this.$pennilessAlert);
+      setTimeout(function() {
+        game.$pennilessAlert.remove();
+      }, 5000);
 
       //and here is where we'll have to trigger the random events
       //1 in 3 odds for real game, but leaving that off for testing.
