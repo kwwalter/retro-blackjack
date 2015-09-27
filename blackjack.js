@@ -75,10 +75,8 @@ var game = {
   dealerCards: [],
   playerCards: [],
   bet: 5,
-  // playerAceIndex: null,
-  // dealerAceIndex: null,
-  // playerHasAce: false,
-  // dealerHasAce: false,
+  playerBlackjack: false,
+  dealerBlackjack: false,
   $dealerCardsSection: $('.dealer-cards'),
   $playerCardsSection: $('.player-cards'),
   dealerTotal: 0,
@@ -107,8 +105,7 @@ var game = {
       game.submitBet();
       game.dealCards();
       game.addUpDealtCards();
-      // game.checkForBlackjack(); //shouldn't run here.
-      game.appendHitStandButtons(); //but this needs to run here.
+      game.appendHitStandButtons();
     });
   },
 
@@ -228,37 +225,6 @@ var game = {
 
     this.$dealerTotal.text("Dealer total: " + this.dealerTotal.toString());
     this.$playerTotal.text("Player total: " + this.playerTotal.toString());
-  },
-
-  checkForBlackjack: function() {
-    if ((this.dealerTotal === 21 && this.dealerCards.length === 2) && this.playerTotal < 21) {
-      alert("Blackjack for dealer! House wins!");
-
-      // probably dont want this to do this, because then it'll go through
-      // the conditionals again and will result in a dealer win, and then
-      // a draw. should just alert that it's a blackjack.
-
-      // bankRoll.totalCash -= this.bet;
-      // bankRoll.updateBankRollView();
-      //
-      // this.removeCardsAndDealAgain();
-    } else if (this.playerTotal === 21 && this.playerCards.length === 2) {
-      alert("Blackjack for you! Bravo!");
-
-      //should keep going here, and eventually get to the dealer's chance to hit, and after that there will be another compare
-
-      // bankRoll.totalCash += (this.bet * 1.5);
-      // bankRoll.updateBankRollView();
-      //
-      // this.removeCardsAndDealAgain();
-    }
-
-    //probably don't need this, but need to call appendHitStandButtons() elsewhere.
-
-    // else {
-    //   console.log("no blackjacks here!");
-    //   this.appendHitStandButtons();
-    // }
   },
 
   appendHitStandButtons: function() {
@@ -384,8 +350,22 @@ var game = {
 
   compareHands: function() {
     //checking to see if either has blackjack..
-    this.checkForBlackjack();
 
+    if ((this.dealerTotal === 21 && this.dealerCards.length === 2) && this.playerTotal < 21 && this.dealerBlackjack == false) {
+        this.dealerBlackjack = true; //so this won't happen more than once.
+
+        // alert("Blackjack for dealer!");
+        // show dealer Blackjack alert
+        this.dealerBJAlert();
+    } else if (this.playerTotal === 21 && this.playerCards.length === 2 && this.playerBlackjack == false) {
+        this.playerBlackjack = true;
+
+        // alert("Blackjack for you! Bravo!");
+        // show player Blackjack alert
+        this.playerBJAlert();
+    }
+
+    //now just compare the cards
     if (this.dealerTotal > this.playerTotal) {
       alert("Dealer's hand beats the player's--house wins!");
 
@@ -538,7 +518,7 @@ var game = {
 
       } else {
           //game over!
-          //tried adding different game over music, to no avail. 
+          //tried adding different game over music, to no avail.
           // $('body embed').remove();
           // $('body').append('<embed height="0" width="0" src="http://www.youtube.com/embed/LE9vGD6JvzA?autoplay=1&loop=1" />';
 
