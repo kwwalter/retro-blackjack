@@ -188,12 +188,22 @@ var game = {
     }
 
     for (var i = 0; i < 2; i++) {
+      // first the player
       var newPlayerCard = deck.cards[0];
+      if (newPlayerCard.rank == "A") {
+        this.playerAce = true;
+      }
+
       this.playerCards.push(newPlayerCard);
       deck.cards.shift();
       this.playerCardsView(newPlayerCard);
 
+      // and now the dealer
       var newDealerCard = deck.cards[0];
+      if (newDealerCard.rank == "A") {
+        this.dealerAce = true;
+      }
+
       this.dealerCards.push(newDealerCard);
       deck.cards.shift();
       this.dealerCardsView(newDealerCard);
@@ -234,8 +244,6 @@ var game = {
 
     for (var b = this.dealerCards.length - 1; b >= 0; b--) {
       if (this.dealerCards[b].rank == "A") {
-        this.dealerAce = true;
-
         if (this.dealerTotal > 10) {
           this.dealerTotal += 1; // setting the ace equal to 1 instead of 11, right off the bat, to avoid being in a situation later on where you'd have to subtract 10 from a hand
         } else {
@@ -252,8 +260,6 @@ var game = {
 
     for (var c = this.playerCards.length - 1; c >= 0; c--) {
       if (this.playerCards[c].rank == "A") {
-        this.playerAce = true;
-
         if (this.playerTotal > 10) {
           this.playerTotal += 1;
         } else {
@@ -336,8 +342,12 @@ var game = {
       deck.shuffleDeck();
     }
 
-    // now can give the player a new card
+    // now can give the player a new card, and check to see if it's an ace
     var hitCard = deck.cards[0];
+    if (hitCard.rank == "A") {
+      this.playerAce = true;
+    }
+
     this.playerCards.push(hitCard);
     deck.cards.shift();
     this.playerCardsView(hitCard);
@@ -379,7 +389,12 @@ var game = {
       deck.shuffleDeck();
     }
 
+    // give the dealer a new card, and check to see if it's an ace
     var dealerHitCard = deck.cards[0];
+    if (dealerHitCard.rank == "A") {
+      this.dealerAce = true;
+    }
+
     this.dealerCards.push(dealerHitCard);
     deck.cards.shift();
     this.dealerCardsView(dealerHitCard);
