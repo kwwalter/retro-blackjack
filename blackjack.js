@@ -281,28 +281,14 @@ var game = {
     }
 
     // update the dealer total view--make it "??" if the user hasn't settled their hand yet, and show the numeric value otherwise
-    if (this.dealerAceCheckBust) {
-      if (this.standPressed) {
-        // have to ensure it'll display correctly, based on the dealerAceCheckBust boolean
-        this.dealerTotal -= 10;
-        this.$dealerTotal.text("Dealer total: " + this.dealerTotal.toString());
-      } else {
-          this.$dealerTotal.text("Dealer total: ??");
-        }
+    if (this.standPressed) {
+      this.$dealerTotal.text("Dealer total: " + this.dealerTotal.toString());
     } else {
-      if (this.standPressed) {
-        this.$dealerTotal.text("Dealer total: " + this.dealerTotal.toString());
-      } else {
-          this.$dealerTotal.text("Dealer total: ??");
-        }
+        this.$dealerTotal.text("Dealer total: ??");
     }
+
     // update the player total view
-    if (this.playerAceCheckBust) {
-      this.playerTotal -= 10;
-      this.$playerTotal.text("Player total: " + this.playerTotal.toString());
-    } else {
-      this.$playerTotal.text("Player total: " + this.playerTotal.toString());
-    }
+    this.$playerTotal.text("Player total: " + this.playerTotal.toString());
   },
 
   //create hit and stand buttons, apppend to player-cards div
