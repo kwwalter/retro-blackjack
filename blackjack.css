@@ -4,12 +4,13 @@
   margin: 0;
 }
 
+/* 8-bit font I found online! */
 @font-face {
 		font-family: ArcadeFont;
 		src: url('fonts/ARCADEPI.TTF');
 }
 
-/*didn't use these two fonts, but might in future updates
+/* didn't use these two fonts, but might in future updates
 
 @font-face {
 		font-family: EightBitFont;
@@ -19,13 +20,14 @@
 @font-face {
 		font-family: EightBitMadness;
 		src: url('fonts/8-bit Madness.ttf');
-}*/
+} */
 
 body {
   background: #00951E;
   font-family: ArcadeFont, serif;
 }
 
+/* h1 at the top of the app */
 .intro-head {
   font-size: 3rem;
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
@@ -35,6 +37,7 @@ body {
   padding: 1rem;
 }
 
+/* dealer face (from Vegas Dream, NES) under the h1, top of app */
 .intro-image {
   padding: 1rem;
   display: block;
@@ -42,6 +45,7 @@ body {
   margin-right: auto;
 }
 
+/* this header contains the player name and bankroll info */
 header {
   background: #006BED;
   width: 80%;
@@ -59,6 +63,7 @@ header {
   border: 20px ridge white;
 }
 
+/* to the left to the left */
 .player-name {
   float: left;
 }
@@ -67,6 +72,9 @@ header {
   float: right;
 }
 
+/* this contains the card totals for the player and dealer,
+as well as the player betting information / action buttons.
+Also contains the player and dealer card views */
 main {
   width: 80%;
   margin: 0 auto;
@@ -84,6 +92,7 @@ main {
   box-shadow: 2px 2px 3px black;
 }
 
+/* creating two columns, essentially: one for dealer, one for player */
 main > section {
   float: left;
 
@@ -97,11 +106,13 @@ section h2 {
   border: 10px double white;
 }
 
+/* this includes the label and input field for player bet */
 .bet-stuff {
   font-size: 1.3rem;
   padding: .5rem 0;
 }
 
+/* styling the bet input field */
 #player-bet {
   height: 1.5rem;
   width: 10rem;
@@ -114,6 +125,7 @@ section h2 {
   font-family: ArcadeFont, serif;
 }
 
+/* all the buttons! */
 button {
   background: grey;
   float: left;
@@ -128,6 +140,7 @@ button {
   padding-top: 1rem;
 }
 
+/* div that contains the three play action buttons */
 .play-buttons {
   padding: .5rem 0rem;
 }
@@ -136,6 +149,8 @@ button {
   padding: 0 1rem;
 }
 
+/* as soon as cards are dealt and views are created, the card views
+are given the class card-in-play */
 .card-in-play {
   width: 84px;
   height: 124px;
@@ -147,11 +162,12 @@ button {
   background-size: 1300% 400%;
 }
 
+/* pushing the dealer's cards down just a bit */
 .dealer-cards div {
   margin-top: 1rem;
 }
 
-/* for mario background */
+/* for mario background on first dealer card */
 .dealer-cards .card-in-play:first-of-type {
   width: 84px;
   height: 124px;
@@ -160,6 +176,7 @@ button {
   background-repeat: no-repeat;
 }
 
+/* for the alerts that pop up on certain outcomes--all can be styled the same */
 .bj-alert {
   width: 100%;
   margin: 0 auto;
@@ -172,12 +189,14 @@ button {
   animation: game-alert 4s ease 1;
 }
 
+/* keyframes rule for the in-game alerts */
 @keyframes game-alert {
   100% {
      transform: translate(0px, -225px);
   }
 }
 
+/* for the blackjack table image at the bottom of the app */
 footer img {
   padding: 1rem;
   display: block;
@@ -188,6 +207,7 @@ footer img {
   border-radius: 25px;
 }
 
+/* image that will scroll up the screen once the player is completely out of money */
 .game-over-image {
   width: 80%;
   max-width: 735px;
@@ -199,12 +219,14 @@ footer img {
   animation: roll-credits 30s ease 1;
 }
 
+/* keyframes rule for the game over screen */
 @keyframes roll-credits {
   100% {
      transform: translate(0px, -400px);
   }
 }
 
+/* reset button will be appended to the main after the game over image, and will be animated in the exact same way */
 .reset-button {
   display: block;
   float: none;
@@ -216,6 +238,7 @@ footer img {
   animation: roll-credits 30s ease 1;
 }
 
+/* media query for a medium-ish screen */
 @media (max-width: 925px) {
   .intro-head {
     font-size: 2rem;
@@ -256,6 +279,7 @@ footer img {
   }
 }
 
+/* media query for a smaller screen */
 @media (max-width: 650px) {
   .intro-head {
     font-size: 1.5rem;
