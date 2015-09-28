@@ -610,6 +610,7 @@ var game = {
 
       // 1 in 3 odds for real game
       var oneInThree = Math.floor(Math.random() * 3) + 1;
+      // console.log(oneInThree);
 
       if (oneInThree === 3) {
         var familyMembers = [
@@ -624,7 +625,7 @@ var game = {
           "estranged brother",
           "separated-at-birth twin",
           "roommate",
-          "driver",
+          "chauffeur",
           "yoga instructor"
         ];
         var randomSums = [
@@ -643,7 +644,8 @@ var game = {
           4
         ];
 
-        var randomIndex = Math.floor(Math.random() * 13) + 1;
+        var randomIndex = Math.floor(Math.random() * 12) + 1;
+        // console.log("random index is ", randomIndex);
 
         alert("I'm sorry to be the bearer of bad news, but your " + familyMembers[randomIndex] + " has passed away. It was very sudden. But! they've left you the handsome sum of $" + randomSums[randomIndex].toString() + ". Aren't you LUCKY?! In my professional opinion, I'd suggest that you hold off on grieving for now and just go spend your money instead.");
 
