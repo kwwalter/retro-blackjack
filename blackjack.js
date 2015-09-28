@@ -93,6 +93,10 @@ var game = {
   // boolean value to confirm when player presses "stand" so that the dealer's card total can be revealed
   standPressed: false,
 
+  // boolean values to tell when someone has an ace
+  dealerAce: false,
+  playerAce: false,
+
   //in-game alerts that will be appended under certain conditions
   $dealerBJAlert: $('<div class="bj-alert">BLACKJACK FOR DEALER!!</div>'),
   $playerBJAlert: $('<div class="bj-alert">BLACKJACK FOR PLAYER!!</div>'),
@@ -230,6 +234,8 @@ var game = {
 
     for (var b = this.dealerCards.length - 1; b >= 0; b--) {
       if (this.dealerCards[b].rank == "A") {
+        this.dealerAce = true;
+
         if (this.dealerTotal > 10) {
           this.dealerTotal += 1; // setting the ace equal to 1 instead of 11, right off the bat, to avoid being in a situation later on where you'd have to subtract 10 from a hand
         } else {
@@ -246,6 +252,8 @@ var game = {
 
     for (var c = this.playerCards.length - 1; c >= 0; c--) {
       if (this.playerCards[c].rank == "A") {
+        this.playerAce = true;
+
         if (this.playerTotal > 10) {
           this.playerTotal += 1;
         } else {
@@ -490,20 +498,24 @@ var game = {
   // assuming the player didn't already bust, checking to see if the dealer does
   checkDealerBust: function() {
     if (this.dealerTotal > 21) {
-      alert("The dealer busts! You win by default--hooray!");
+      if (this.dealerAce) {
+        
+      } else {
+          alert("The dealer busts! You win by default--hooray!");
 
-      //append the animation div
-      $('main').append(this.$dealerBustAlert);
+          //append the animation div
+          $('main').append(this.$dealerBustAlert);
 
-      // set a timeout for removing the element so that it's not just sitting there at the bottom of the page
-      setTimeout(function() {
-        game.$dealerBustAlert.remove();
-      }, 2500);
+          // set a timeout for removing the element so that it's not just sitting there at the bottom of the page
+          setTimeout(function() {
+            game.$dealerBustAlert.remove();
+          }, 2500);
 
-      bankRoll.totalCash += (this.bet * 1.5);
-      bankRoll.updateBankRollView();
+          bankRoll.totalCash += (this.bet * 1.5);
+          bankRoll.updateBankRollView();
 
-      this.removeCardsAndDealAgain();
+          this.removeCardsAndDealAgain();
+      }
     }
   },
 
@@ -513,9 +525,11 @@ var game = {
     this.dealerTotal = 0;
     this.playerTotal = 0;
 
-    // set blackjack boolean values to false again
+    // set blackjack and ace boolean values to false again
     this.playerBlackjack = false;
     this.dealerBlackjack = false;
+    this.playerAce = false;
+    this.dealerAce = false;
 
     // set stand button boolean back to false, too
     this.standPressed = false;
