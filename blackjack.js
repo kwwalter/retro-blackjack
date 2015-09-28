@@ -348,6 +348,7 @@ var game = {
 
     if (this.playerTotal > 21 && this.playerAce) {
       this.playerTotal -= 10;
+      this.$playerTotal.text("Player total: " + this.playerTotal.toString());
 
       // in case they get a second one
       this.playerAce = false;
@@ -504,6 +505,7 @@ var game = {
   checkDealerBust: function() {
     if (this.dealerTotal > 21 && this.dealerAce) {
       this.dealerTotal -= 10;
+      this.$dealerTotal.text("Dealer total: " + this.dealerTotal.toString());
 
       // in case they get a second one
       this.dealerAce = false;
