@@ -225,7 +225,10 @@ var game = {
     this.dealerTotal = 0;
     this.playerTotal = 0;
 
-    for (var b = 0; b < this.dealerCards.length; b++) {
+    // originally went through these two arrays from start to finish, but had to traverse them backwards in case there's an ace in the [0] position
+    // e.g., a starting hand of A + 6 would be 17, but if you draw a J next it should still be 17.
+
+    for (var b = this.dealerCards.length - 1; b >= 0; b--) {
       if (this.dealerCards[b].rank == "A") {
         if (this.dealerTotal > 10) {
           this.dealerTotal += 1; // setting the ace equal to 1 instead of 11, right off the bat, to avoid being in a situation later on where you'd have to subtract 10 from a hand
@@ -241,7 +244,7 @@ var game = {
       }
     }
 
-    for (var c = 0; c < this.playerCards.length; c++) {
+    for (var c = this.playerCards.length - 1; c >= 0; c--) {
       if (this.playerCards[c].rank == "A") {
         if (this.playerTotal > 10) {
           this.playerTotal += 1;
@@ -596,8 +599,8 @@ var game = {
           1,
           50,
           1000000000,
-          57
-          6500
+          57,
+          6500,
           4
         ];
 
