@@ -44,7 +44,7 @@ Then, in the 11th hour (literally: it was around 11pm, when I was sitting down t
 
 ###Installation Instructions
 
-You can find the game [here](http://kwwalter.github.io/).
+You can find the game [here](http://kwwalter.github.io/retro-blackjack/).
 
 ###Unsolved Problems
 * First and foremost: a couple of hands where aces might still be tricky.
