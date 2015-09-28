@@ -97,6 +97,10 @@ var game = {
   dealerAce: false,
   playerAce: false,
 
+  // extra booleans to keep track of this in the check bust functions, so that the display totals aren't 10 higher than they should be
+  dealerAceCheckBust: false,
+  playerAceCheckBust: false,
+
   //in-game alerts that will be appended under certain conditions
   $dealerBJAlert: $('<div class="bj-alert">BLACKJACK FOR DEALER!!</div>'),
   $playerBJAlert: $('<div class="bj-alert">BLACKJACK FOR PLAYER!!</div>'),
@@ -242,7 +246,8 @@ var game = {
     // originally went through these two arrays from start to finish, but had to traverse them backwards in case there's an ace in the [0] position
     // e.g., a starting hand of A + 6 would be 17, but if you draw a J next it should still be 17.
 
-    for (var b = this.dealerCards.length - 1; b >= 0; b--) {
+    // for (var b = this.dealerCards.length - 1; b >= 0; b--) {
+    for (var b = 0; b < this.dealerCards.length; b++) {
       if (this.dealerCards[b].rank == "A") {
         if (this.dealerTotal > 10) {
           this.dealerTotal += 1; // setting the ace equal to 1 instead of 11, right off the bat, to avoid being in a situation later on where you'd have to subtract 10 from a hand
@@ -258,7 +263,8 @@ var game = {
       }
     }
 
-    for (var c = this.playerCards.length - 1; c >= 0; c--) {
+    // for (var c = this.playerCards.length - 1; c >= 0; c--) {
+    for (var c = 0; c < this.playerCards.length; c++) {
       if (this.playerCards[c].rank == "A") {
         if (this.playerTotal > 10) {
           this.playerTotal += 1;
@@ -275,14 +281,28 @@ var game = {
     }
 
     // update the dealer total view--make it "??" if the user hasn't settled their hand yet, and show the numeric value otherwise
-    if (this.standPressed) {
-      this.$dealerTotal.text("Dealer total: " + this.dealerTotal.toString());
+    if (this.dealerAceCheckBust) {
+      if (this.standPressed) {
+        // have to ensure it'll display correctly, based on the dealerAceCheckBust boolean
+        this.dealerTotal -= 10;
+        this.$dealerTotal.text("Dealer total: " + this.dealerTotal.toString());
+      } else {
+          this.$dealerTotal.text("Dealer total: ??");
+        }
     } else {
-        this.$dealerTotal.text("Dealer total: ??");
+      if (this.standPressed) {
+        this.$dealerTotal.text("Dealer total: " + this.dealerTotal.toString());
+      } else {
+          this.$dealerTotal.text("Dealer total: ??");
+        }
     }
-
     // update the player total view
-    this.$playerTotal.text("Player total: " + this.playerTotal.toString());
+    if (this.playerAceCheckBust) {
+      this.playerTotal -= 10;
+      this.$playerTotal.text("Player total: " + this.playerTotal.toString());
+    } else {
+      this.$playerTotal.text("Player total: " + this.playerTotal.toString());
+    }
   },
 
   //create hit and stand buttons, apppend to player-cards div
@@ -357,11 +377,14 @@ var game = {
     //if the total is above 21, the player loses.
 
     if (this.playerTotal > 21 && this.playerAce) {
-      this.playerTotal -= 10;
-      this.$playerTotal.text("Player total: " + this.playerTotal.toString());
-
       // in case they get a second one
       this.playerAce = false;
+
+      // for keeping track later on
+      this.playerAceCheckBust = true;
+
+      this.playerTotal -= 10;
+      this.$playerTotal.text("Player total: " + this.playerTotal.toString());
 
     } else if (this.playerTotal > 21) {
         alert("I think you went a little too far there, " + bankRoll.playerName);
@@ -519,13 +542,14 @@ var game = {
   // assuming the player didn't already bust, checking to see if the dealer does
   checkDealerBust: function() {
     if (this.dealerTotal > 21 && this.dealerAce) {
-      this.dealerTotal -= 10;
-      this.$dealerTotal.text("Dealer total: " + this.dealerTotal.toString());
-
       // in case they get a second one
       this.dealerAce = false;
 
+      // for keeping track later on
+      this.dealerAceCheckBust = true;
 
+      this.dealerTotal -= 10;
+      this.$dealerTotal.text("Dealer total: " + this.dealerTotal.toString());
 
         // going to find the index for the dealer's ace, if they have one
         // var searchTerm = "A";
