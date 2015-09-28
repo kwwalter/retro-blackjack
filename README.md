@@ -55,8 +55,13 @@ You can find the game [here](http://kwwalter.github.io/).
 
 ###Wireframe Images / User Stories
 
-I hope you can read my tiny chicken-scratch! 
+I hope you can read my tiny chicken-scratch!
 
+![Wireframe](https://github.com/kwwalter/retro-blackjack/blob/master/wireframes/IMAG2388.jpg)
+
+![User Stories](https://github.com/kwwalter/retro-blackjack/blob/master/wireframes/IMAG2389.jpg)
+
+![ERD / notes](https://github.com/kwwalter/retro-blackjack/blob/master/wireframes/IMAG2390.jpg)
 
 ###Attributions
 
