@@ -346,23 +346,28 @@ var game = {
   checkPlayerBust: function() {
     //if the total is above 21, the player loses.
 
-    if (this.playerTotal > 21) {
-      alert("I think you went a little too far there, " + bankRoll.playerName);
+    if (this.playerTotal > 21 && this.playerAce) {
+      this.playerTotal -= 10;
 
-      // insert the animation
-      $('main').append(this.$playerBustAlert);
-      //set a timeout for removing the element so that it's not just sitting there at the bottom of the page
-      setTimeout(function() {
-        game.$playerBustAlert.remove();
-      }, 2500);
+      // in case they get a second one
+      this.playerAce = false;
 
-      bankRoll.totalCash -= this.bet;
-      bankRoll.updateBankRollView();
-      this.$hitButton.off();
+    } else if (this.playerTotal > 21) {
+        alert("I think you went a little too far there, " + bankRoll.playerName);
 
-      this.removeCardsAndDealAgain();
-    } else {
-      return;
+        // insert the animation
+        $('main').append(this.$playerBustAlert);
+
+        //set a timeout for removing the element so that it's not just sitting there at the bottom of the page
+        setTimeout(function() {
+          game.$playerBustAlert.remove();
+        }, 2500);
+
+        bankRoll.totalCash -= this.bet;
+        bankRoll.updateBankRollView();
+        this.$hitButton.off();
+
+        this.removeCardsAndDealAgain();
     }
   },
 
@@ -497,26 +502,43 @@ var game = {
 
   // assuming the player didn't already bust, checking to see if the dealer does
   checkDealerBust: function() {
-    if (this.dealerTotal > 21) {
-      if (this.dealerAce) {
-        
-      } else {
-          alert("The dealer busts! You win by default--hooray!");
+    if (this.dealerTotal > 21 && this.dealerAce) {
+      this.dealerTotal -= 10;
 
-          //append the animation div
-          $('main').append(this.$dealerBustAlert);
+      // in case they get a second one
+      this.dealerAce = false;
 
-          // set a timeout for removing the element so that it's not just sitting there at the bottom of the page
-          setTimeout(function() {
-            game.$dealerBustAlert.remove();
-          }, 2500);
 
-          bankRoll.totalCash += (this.bet * 1.5);
-          bankRoll.updateBankRollView();
 
-          this.removeCardsAndDealAgain();
+        // going to find the index for the dealer's ace, if they have one
+        // var searchTerm = "A";
+        // var index = -1;
+
+        // go through the array of objects and find the index
+        // for(var i = 0, len = myArray.length; i < len; i++) {
+        //   if (this.dealerCards[i].rank === searchTerm) {
+        //     index = i;
+        //     break;
+        //   }
+        // }
+
+        // now, if the A is in the first or last position,
+    } else if (this.dealerTotal > 21) {
+        alert("The dealer busts! You win by default--hooray!");
+
+        //append the animation div
+        $('main').append(this.$dealerBustAlert);
+
+        // set a timeout for removing the element so that it's not just sitting there at the bottom of the page
+        setTimeout(function() {
+          game.$dealerBustAlert.remove();
+        }, 2500);
+
+        bankRoll.totalCash += (this.bet * 1.5);
+        bankRoll.updateBankRollView();
+
+        this.removeCardsAndDealAgain();
       }
-    }
   },
 
   // let's start all over!
