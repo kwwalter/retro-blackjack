@@ -122,15 +122,13 @@ var game = {
   },
 
   resetGame: function () {
-    //this might be causing dealing 4 cards in the first hand after a reset.
-    // this.setListeners();
+    //using initializeGame() would result in two setListeners() being called, and thus four cards in the first hand dealt after a game over / reset
 
     deck.createDeck();
     deck.shuffleDeck();
     setTimeout(function() {
       bankRoll.initializeBankRoll();
     }, 500);
-    // $('body').append('<embed height="0" width="0" src="http://www.youtube.com/embed/yaWkjUKSyLA?autoplay=1&loop=1" />';
   },
 
   submitBet: function() {
@@ -175,8 +173,6 @@ var game = {
       this.dealerCardsView(newDealerCard);
     }
 
-    // $('.dealer-cards .card-in-play:first-of-type').addClass("background-card");
-    // $('.dealer-cards .card-in-play:first-of-type').css("background", "url(images/mario-cards-back-no-bg.png)");
     $('.dealer-cards .card-in-play:first-of-type').css("background-position", "0 0");
 
     this.$deal.off();
@@ -203,13 +199,6 @@ var game = {
     this.playerTotal = 0;
 
     for (var b = 0; b < this.dealerCards.length; b++) {
-      // if (this.dealerCards[b].rank == "A") {
-      //   if (this.dealerTotal <= 10) {
-      //     this.dealerTotal += 11;
-      //   } else {
-      //     this.dealerTotal += 1;
-      //   }
-      // }
       if (this.dealerCards[b].rank == "A") {
         if (this.dealerTotal > 10) {
           this.dealerTotal += 1;
@@ -226,13 +215,6 @@ var game = {
     }
 
     for (var c = 0; c < this.playerCards.length; c++) {
-      // if (this.playerCards[c].rank == "A") {
-      //   if (this.playerTotal <= 10) {
-      //     this.playerTotal += 11;
-      //   } else {
-      //     this.playerTotal += 1;
-      //   }
-      // }
       if (this.playerCards[c].rank == "A") {
         if (this.playerTotal > 10) {
           this.playerTotal += 1;
@@ -268,14 +250,13 @@ var game = {
     this.$hitButton.on("click", function(e) {
       game.hitPlayer();
       game.addUpDealtCards();
-      // game.checkPlayerforAces(); //taking this out for now
       game.checkPlayerBust();
     });
 
     this.$standButton.on("click", function(e) {
       //can now display the dealer's total score
       game.standPressed = true;
-      game.$dealerTotal.text("Dealer total: " + game.dealerTotal.toString());      
+      game.$dealerTotal.text("Dealer total: " + game.dealerTotal.toString());
 
       // reveal dealer's first card -- commented out until i get it working
       game.revealDealerFirstCard(game.dealerCards[0]);
@@ -290,7 +271,6 @@ var game = {
 
         game.hitDealer();
         game.addUpDealtCards();
-        // game.checkDealerforAces();
         game.checkDealerBust();
 
         if (game.dealerTotal > 0 && game.playerTotal > 0) {
@@ -320,40 +300,6 @@ var game = {
     this.playerCards.push(hitCard);
     deck.cards.shift();
     this.playerCardsView(hitCard);
-  },
-
-  // checkPlayerforAces: function() {
-  //   while (this.playerTotal > 21) {
-  //     for (var d = 0; d < this.playerCards.length; d++) {
-  //       if (this.playerCards[d].rank == "A" && d !== this.playerAceIndex) {
-  //         // if (this.playerTotal > 21) {
-  //           this.playerTotal -= 10;
-  //           this.$playerTotal.text("Player total: " + this.playerTotal.toString());
-  //
-  //           this.playerAceIndex = d;
-  //         // }
-  //       }
-  //     }
-  //   }
-  //
-  //   console.log("After checking for aces, player total is now", this.playerTotal);
-  // },
-
-  //trying again, without the ace index. shouldn't need it.
-
-  checkPlayerforAces: function() {
-    while (this.playerTotal > 21) {
-      for (var d = 0; d < this.playerCards.length; d++) {
-        if (this.playerCards[d].rank == "A") {
-          // if (this.playerTotal > 21) {
-            this.playerTotal -= 10;
-            this.$playerTotal.text("Player total: " + this.playerTotal.toString());
-          // }
-        }
-      }
-    }
-
-    console.log("After checking for aces, player total is now", this.playerTotal);
   },
 
   checkPlayerBust: function() {
@@ -473,7 +419,6 @@ var game = {
     setTimeout(function() {
       game.$dealerBJAlert.remove();
     }, 2500);
-    // this.$dealerBJAlert.remove();
   },
 
   playerBlackjackAlert: function() {
@@ -481,40 +426,6 @@ var game = {
     setTimeout(function() {
       game.$playerBJAlert.remove();
     }, 2500);
-    // this.$playerBJAlert.remove();
-  },
-
-  // checkDealerforAces: function() {
-  //   while (this.dealerTotal > 21) {
-  //     for (var e = 0; e < this.dealerCards.length; e++) {
-  //       if (this.dealerCards[e].rank == "A" && e !== this.dealerAceIndex) {
-  //         // if (this.dealerTotal > 21) {
-  //           this.dealerTotal -= 10;
-  //           this.$dealerTotal.text("Dealer total: " + this.dealerTotal.toString());
-  //
-  //           this.dealerAceIndex = e;
-  //         // }
-  //       }
-  //     }
-  //   }
-  //
-  //   console.log("After checking for aces, dealer total is now", this.dealerTotal);
-  // },
-
-  //trying again without ace index, shouldn't need it
-  checkDealerforAces: function() {
-    while (this.dealerTotal > 21) {
-      for (var e = 0; e < this.dealerCards.length; e++) {
-        if (this.dealerCards[e].rank == "A") {
-          // if (this.dealerTotal > 21) {
-            this.dealerTotal -= 10;
-            this.$dealerTotal.text("Dealer total: " + this.dealerTotal.toString());
-          // }
-        }
-      }
-    }
-
-    console.log("After checking for aces, dealer total is now", this.dealerTotal);
   },
 
   checkDealerBust: function() {
@@ -531,9 +442,6 @@ var game = {
 
       this.removeCardsAndDealAgain();
     }
-    //   else {
-    //   return;
-    // }
   },
 
   removeCardsAndDealAgain: function() {
@@ -587,9 +495,9 @@ var game = {
 
       //and here is where we'll have to trigger the random events
       //1 in 3 odds for real game, but leaving that off for testing.
-      // var oneInThree = Math.floor(Math.random() * 3) + 1;
 
-      var oneInThree = 2;
+      var oneInThree = Math.floor(Math.random() * 3) + 1;
+      // var oneInThree = 2;
 
       if (oneInThree === 3) {
         var familyMembers = [
@@ -647,9 +555,5 @@ var game = {
     }
   }
 };
-
-// $('modal-button').on("click", function() {
-//   game.initializeGame();
-// });
 
 game.initializeGame();
